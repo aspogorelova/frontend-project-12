@@ -1,82 +1,77 @@
-import React from 'react';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
-  useLocation
+  useLocation,
 } from 'react-router-dom';
-import { Button, Navbar, Container } from 'react-bootstrap';
-import LoginPage from './pages/LoginPage.jsx';
-import ErrorPage from './pages/ErrorPage.jsx';
-import AuthContext from '../context/index.jsx';
-import useAuth from '../hooks/index.jsx';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectAuthToken, logOut, logIn } from '../slices/authSlice.js';
+import { Button, Navbar, Container, Row } from 'react-bootstrap';
+import LoginPage from './LoginPage.jsx';
+import ErrorPage from './ErrorPage.jsx';
+import Channels from './Channels.jsx';
+import Chat from './Chat.jsx';
 
-const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  const logIn = () => setLoggedIn(true);
-
-  const logOut = () => {
-    localStorage.removeItem('userId');
-    setLoggedIn(false);
-  }
-
-  return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
-
-const PrivateRote = ({ children }) => {
-  const auth = useAuth();
-  const location = useLocation();
-
-  return (
-    auth.loggedIn ? children : <Navigate to='login' state={{ from: location }}></Navigate>
-  )
+const handleLogout = (dispatch) => {
+  localStorage.removeItem('jwttoken');
+  dispatch(logOut());
 }
 
 const AuthButton = () => {
-  // Здесь будет кнопка Выйти
-  const auth = useAuth();
-  const location = useLocation();
+  const token = useSelector(selectAuthToken);
+  const dispatch = useDispatch();
 
   return (
-    auth.loggedIn
-      ? <Button>Выйти</Button>
-      : null
-  )
+    token ? <Button onClick={() => handleLogout(dispatch)}>Выйти</Button> : null
+  );
+}
+
+const PrivateRoute = ({ children }) => {
+  const token = useSelector(selectAuthToken);
+  const location = useLocation();
+
+  return token ? children : <Navigate to='login' state={{ from: location }}></Navigate>;
 }
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {    
+    const user = localStorage.getItem('username');
+    const tokenFromLocalStorage = localStorage.getItem('jwttoken');
+    if (user && tokenFromLocalStorage) {
+      dispatch(logIn({ user, token: tokenFromLocalStorage }));
+    }
+  }, []);
+
   return (
-    <Container fluid className="h-100">
-      <AuthProvider>
-        <Router>
-          <Navbar expand="lg" variant="light" bg="white" className="shadow-sm">
-            <Container>
-              <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
-              <AuthButton></AuthButton>
-            </Container>
-          </Navbar>
+    <div className="d-flex flex-column h-100">
+      <Router>
+        <Navbar expand="lg" variant="light" bg="white" className="shadow-sm">
+          <Container>
+            <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
+            <AuthButton></AuthButton>
+          </Container>
+        </Navbar>
 
-          <Routes>
-            <Route path='/' element={(
-              <PrivateRote>
-                <h1>CHAT</h1>
-              </PrivateRote>
-            )}></Route>
-            <Route path='login' element={<LoginPage />}>
-            </Route>
-            <Route path='*' element={<ErrorPage />} />
-
-          </Routes>
-        </Router>
-      </AuthProvider>
-    </Container>
+        <Routes>
+          <Route path='/' element={
+            <PrivateRoute>
+              <Container className="h-100 my-4 overflow-hidden rounded shadow">
+                <Row className="h-100 bg-white flex-md-row">
+                  <Channels />
+                  <Chat />
+                </Row>
+              </Container>
+            </PrivateRoute>
+          } />
+          <Route path='login' element={<LoginPage />} />
+          <Route path='*' element={<ErrorPage />} />
+        </Routes>
+      </Router>
+    </div>
   )
 }
 

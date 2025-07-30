@@ -26,12 +26,16 @@
     "@fastify/autoload": "^6.3.1",
     "@fastify/static": "^8.2.0",
     "@hexlet/chat-server": "^2.0.4",
+    "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.11.0",
     "bootstrap": "^5.3.7",
+    "classnames": "^2.5.1",
     "fastify": "^5.4.0",
     "formik": "^2.4.6",
     "pino": "^9.7.0",
     "react-bootstrap": "^2.10.10",
+    "react-bootstrap-icons": "^1.11.6",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.7.0",
     "yup": "^1.6.1"
   }
