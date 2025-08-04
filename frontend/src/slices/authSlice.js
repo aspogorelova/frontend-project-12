@@ -18,7 +18,7 @@ const authSlice = createSlice({
       state.user = payload.user;
       state.token = payload.token;
       state.status = 'succeeded';
-      console.log('🔥 Текущий state в authSlice:', current(state));
+      // console.log('🔥 Текущий state в authSlice:', current(state));
     },
     setAuthFailed: (state, { payload }) => {
       state.error = payload;

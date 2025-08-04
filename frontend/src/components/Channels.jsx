@@ -1,13 +1,14 @@
 import { Col, Button, ListGroup, Container, NavItem } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { channelsApi, useGetChannelsQuery } from '../services/channelsApi.js';
-import { countChannels } from "../slices/channelsSlice.js"
+import { selectActiveChannelId } from "../slices/channelsSlice.js"
 import cn from "classnames";
 import { useDispatch, useSelector } from 'react-redux';
 
 const Channels = () => {
   const { data } = useGetChannelsQuery();
-  // const countChanls = useSelector(countChannels);
+  const activeChannelId = useSelector(selectActiveChannelId);
+  const classes = (idChannel) => cn('w-100', 'rounded-0', 'text-start', { 'btn-secondary': idChannel === String(activeChannelId) });
 
   return (
         <Col xs={4} md={2} className="border-end px-0 bg-light flex-column h-100 d-flex">
@@ -20,16 +21,15 @@ const Channels = () => {
           </Container>
           <ListGroup as="ul" id='channels-box' className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block" variant="">
             {data && data.map((channel) => {
-              const channelName = channel.name;
               return (
                 <NavItem as="li" className="w-100">
                   <Button
                     type="button"
-                    className='w-100 rounded-0 text-start'
+                    className={classes(channel.id)}
                     variant=""
                   >
                     <span className="me-1"># </span>
-                    {channelName}
+                    {channel.name}
                   </Button>
                 </NavItem>
               )

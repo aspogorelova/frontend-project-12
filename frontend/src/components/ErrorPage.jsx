@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 
 const ErrorPage = () => {
@@ -8,7 +7,7 @@ const ErrorPage = () => {
         <Col className="d-flex flex-column justify-content-center align-items-center">
           <Image
             alt="Страница не найдена"
-            src="../../assets/notFound.svg"
+            src="./notFound.svg"
             fluid
             className="h-25"
           />

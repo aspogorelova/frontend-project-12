@@ -2,7 +2,7 @@ import { createSlice, createEntityAdapter, current } from "@reduxjs/toolkit";
 import { channelsApi } from "../services/channelsApi";
 
 const channelsAdapter = createEntityAdapter();
-const initialState = channelsAdapter.getInitialState({ active: null });
+const initialState = channelsAdapter.getInitialState({ active: 1 });
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -12,7 +12,7 @@ const channelsSlice = createSlice({
       channelsApi.endpoints.getChannels.matchFulfilled,
       (state, action) => {
         channelsAdapter.upsertMany(state, action.payload);
-        console.log('current channels state  ', current(state));
+        // console.log('current channels state  ', current(state));
       }
     )
   }
@@ -20,6 +20,7 @@ const channelsSlice = createSlice({
 
 export const selectors = channelsAdapter.getSelectors(state => state.channels);
 export const selectAllChannels = selectors.selectAll;
+export const selectActiveChannelId = (state) => state.channels.active;
 export const countChannels = (state) => selectors.selectTotal(state);
 export const { actions } = channelsSlice;
 export default channelsSlice.reducer;

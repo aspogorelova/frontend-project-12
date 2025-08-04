@@ -7,6 +7,11 @@ const initialState = messagesAdapter.getInitialState();
 const messagesSlice = createSlice({
   name: 'messages',
   initialState,
+  reducers: {
+    addMessageFromSocket: (state, action) => {
+      messagesAdapter.upsertOne(state, action.payload);
+    },
+  },
   extraReducers(builder) {
     builder.addMatcher(
       messagesApi.endpoints.getMessages.matchFulfilled,
@@ -18,6 +23,7 @@ const messagesSlice = createSlice({
   }
 })
 
+export const { addMessageFromSocket } = messagesSlice.actions;
 export const selectors = messagesAdapter.getSelectors(state => state.messages);
 export const countMessages = (state) => selectors.selectTotal(state);
 export const { actions } = messagesSlice;
