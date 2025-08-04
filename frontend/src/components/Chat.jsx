@@ -1,3 +1,5 @@
+import i18next from 'i18next';
+import resources from '../locales/index.js';
 import { useEffect, useRef, useState } from 'react';
 import { Col, Form, Button, InputGroup } from 'react-bootstrap';
 import '../styles.css';
@@ -10,6 +12,16 @@ import * as io from 'socket.io-client';
 // Добавить сообщение о загрузке сообщений
 
 const Chat = () => {
+  const i18nextInstance = i18next.createInstance()
+  const runApp = async () => {
+    await i18nextInstance.init({
+      lng: 'ru',
+      debug: false,
+      resources,
+    })
+  }
+  runApp();
+
   const { data: messages } = useGetMessagesQuery();
   const [newMessage, setNewMessage] = useState('');
   const [currentMessages, setCurrentMessages] = useState(messages || []);
@@ -39,17 +51,17 @@ const Chat = () => {
     };
   }, [])
 
-useEffect(() => {
-  if (messages) {
-    setCurrentMessages(messages);
-  }
-}, [messages]);
+  useEffect(() => {
+    if (messages) {
+      setCurrentMessages(messages);
+    }
+  }, [messages]);
 
-useEffect(() => {
-  if (messages) {
-    setCountMessages(currentMessages.length);
-  }
-}, [currentMessages]);
+  useEffect(() => {
+    if (messages) {
+      setCountMessages(currentMessages.length);
+    }
+  }, [currentMessages]);
 
   const handleChangeInput = (e) => {
     setNewMessage(e.target.value);
@@ -81,7 +93,7 @@ useEffect(() => {
           <p className='m-0'>
             <strong># general</strong>
             <br />
-            <span className="text-muted">{countMessages} сообщений</span>
+            <span className="text-muted">{i18nextInstance.t('message', { count: countMessages })}</span>
           </p>
         </div>
 
