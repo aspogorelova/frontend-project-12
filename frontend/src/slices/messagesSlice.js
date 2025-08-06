@@ -10,6 +10,8 @@ const messagesSlice = createSlice({
   reducers: {
     addMessageFromSocket: (state, action) => {
       messagesAdapter.upsertOne(state, action.payload);
+      console.log('current MESSAGES state after add new mess  ', current(state));
+
     },
   },
   extraReducers(builder) {
@@ -24,7 +26,7 @@ const messagesSlice = createSlice({
 })
 
 export const { addMessageFromSocket } = messagesSlice.actions;
-export const selectors = messagesAdapter.getSelectors(state => state.messages);
+export const { selectAll } = messagesAdapter.getSelectors((state) => state.messages);
 export const countMessages = (state) => selectors.selectTotal(state);
 export const { actions } = messagesSlice;
 export default messagesSlice.reducer;

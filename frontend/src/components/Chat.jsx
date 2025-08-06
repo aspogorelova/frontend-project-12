@@ -1,14 +1,13 @@
 import i18next from 'i18next';
 import resources from '../locales/index.js';
 import { useEffect, useRef, useState } from 'react';
-import { Col, Form, Button, InputGroup, Spinner } from 'react-bootstrap';
+import { Col, Form, Button, InputGroup } from 'react-bootstrap';
 import '../styles.css';
 import { useGetMessagesQuery, useAddMessageMutation } from '../services/messagesApi.js';
 import { selectActiveChannelId } from '../slices/channelsSlice.js';
-import { useSelector } from 'react-redux';
+import { addMessageFromSocket, selectAll } from '../slices/messagesSlice.js';
+import { useSelector, useDispatch } from 'react-redux';
 import * as io from 'socket.io-client';
-
-// Добавить сообщение о загрузке сообщений
 
 const Chat = () => {
   const i18nextInstance = i18next.createInstance()
@@ -21,11 +20,11 @@ const Chat = () => {
   }
   runApp();
 
+  const dispatch = useDispatch();
+  const allMessages = useSelector(selectAll);
   const { data: messages, isLoading: isLoadingMessages } = useGetMessagesQuery();
+  const idActiveChannel = useSelector(selectActiveChannelId);
   const [newMessage, setNewMessage] = useState('');
-  const [currentMessages, setCurrentMessages] = useState(messages || []);
-  const [countMessages, setCountMessages] = useState(currentMessages.length);
-  const idActiceChannel = useSelector(selectActiveChannelId);
   const [addMessage, { isLoading: isLoadingMessage }] = useAddMessageMutation();
   const currentUser = localStorage.getItem('username');
   const inputRef = useRef();
@@ -33,6 +32,9 @@ const Chat = () => {
   const host = window.location.host;
   const socketURL = `${protocol}//${host}`;
   let socket;
+  let filteredMessages;
+
+  const filterMessages = (messages) => messages.filter((message) => String(message.channelId) === String(idActiveChannel));
 
   useEffect(() => {
     inputRef.current.focus();
@@ -40,27 +42,13 @@ const Chat = () => {
     socket = io.connect(socketURL);
 
     socket.on('newMessage', (payload) => {
-      if (payload.channelId === idActiceChannel) {
-        setCurrentMessages(prevMessages => [...prevMessages, payload]);
-      }
+      dispatch(addMessageFromSocket(payload));
     });
 
     return () => {
       socket.disconnect();
     };
   }, [])
-
-  useEffect(() => {
-    if (messages) {
-      setCurrentMessages(messages);
-    }
-  }, [messages]);
-
-  useEffect(() => {
-    if (messages) {
-      setCountMessages(currentMessages.length);
-    }
-  }, [currentMessages]);
 
   const handleChangeInput = (e) => {
     setNewMessage(e.target.value);
@@ -70,9 +58,11 @@ const Chat = () => {
     e.preventDefault();
 
     const messageText = newMessage;
+    if (!messageText) return;
+
     const message = {
       body: messageText,
-      channelId: idActiceChannel,
+      channelId: idActiveChannel,
       username: currentUser,
     }
 
@@ -80,10 +70,11 @@ const Chat = () => {
       await addMessage(message).unwrap();
       setNewMessage('');
     } catch (err) {
-      console.error("Ошибка при отправке:", err);
     }
-
   }
+
+  filteredMessages = filterMessages(allMessages);
+  const countMessages = filteredMessages.length;
 
   return (
     <Col className="p-0 h-100">
@@ -98,14 +89,10 @@ const Chat = () => {
 
         {/* Messages box */}
         <div id="messages-box" className="chat-messages overflow-auto px-5">
-          {isLoadingMessages ? ( // Проверка на загрузку сообщений
-            // <Spinner animation="border" role="status">
-              <span> Немного терпения. Сообщения загружаются...</span>
-            // </Spinner>
+          {isLoadingMessages ? (
+            <span> Немного терпения. Сообщения загружаются...</span>
           ) : (
-            currentMessages &&
-            currentMessages
-              .filter((message) => message.channelId === idActiceChannel)
+            filteredMessages.length > 0 && filteredMessages
               .map((message) => (
                 <div
                   key={message.id}
