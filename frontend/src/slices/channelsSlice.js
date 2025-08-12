@@ -2,25 +2,33 @@ import { createSlice, createEntityAdapter, current } from "@reduxjs/toolkit";
 import { channelsApi } from "../services/channelsApi";
 
 const channelsAdapter = createEntityAdapter();
-const initialState = channelsAdapter.getInitialState({ active: 1 });
+const activeChannel = localStorage.getItem('currentChannel') || 1;
+const initialState = channelsAdapter.getInitialState({ active: activeChannel });
 
 const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
     setActiveChannel(state, action) {
-      console.log('setActiveChannel id  ', action);
       state.active = action.payload;
+      localStorage.setItem('currentChannel', action.payload);
     }
   },
   extraReducers(builder) {
-    builder.addMatcher(
-      channelsApi.endpoints.getChannels.matchFulfilled,
-      (state, action) => {
-        channelsAdapter.upsertMany(state, action.payload);
-        // console.log('current channels state  ', current(state));
-      }
-    )
+    builder
+      .addMatcher(
+        channelsApi.endpoints.getChannels.matchFulfilled,
+        (state, action) => {
+          channelsAdapter.setAll(state, action.payload);
+          // console.log('current channels state  ', current(state));
+        }
+      )
+      .addMatcher(
+        channelsApi.endpoints.removeChannel.matchFulfilled,
+        (state, { payload }) => {
+          channelsAdapter.removeOne(state, payload.id)
+        }
+      )
   }
 })
 

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -13,6 +13,8 @@ import LoginPage from './LoginPage.jsx';
 import ErrorPage from './ErrorPage.jsx';
 import Channels from './Channels.jsx';
 import Chat from './Chat.jsx';
+import getModal from './getModal.js';
+import { setActiveChannel } from '../slices/channelsSlice.js';
 
 const handleLogout = (dispatch) => {
   localStorage.removeItem('jwttoken');
@@ -35,8 +37,18 @@ const PrivateRoute = ({ children }) => {
   return token ? children : <Navigate to='login' state={{ from: location }}></Navigate>;
 }
 
+const renderModal = ({ modalInfo, hideModal }) => {
+    if (!modalInfo.type) return null;
+
+    const Component = getModal(modalInfo.type); // компонент модального окна
+    return <Component onHide={hideModal} modalInfo={modalInfo}  />
+  }
+
 function App() {
   const dispatch = useDispatch();
+  const [modalInfo, setModalInfo] = useState({ type: null, item: null });
+  const hideModal = () => setModalInfo({ type: null, item: null });
+  const showModal = (type, item = null) => setModalInfo({ type, item });
 
   useEffect(() => {    
     const user = localStorage.getItem('username');
@@ -44,6 +56,8 @@ function App() {
     if (user && tokenFromLocalStorage) {
       dispatch(logIn({ user, token: tokenFromLocalStorage }));
     }
+
+    dispatch(setActiveChannel(1));
   }, []);
 
   return (
@@ -61,9 +75,10 @@ function App() {
             <PrivateRoute>
               <Container className="h-100 my-4 overflow-hidden rounded shadow">
                 <Row className="h-100 bg-white flex-md-row">
-                  <Channels />
+                  <Channels showModal={showModal} />
                   <Chat />
                 </Row>
+                {renderModal({ modalInfo, hideModal })}
               </Container>
             </PrivateRoute>
           } />
