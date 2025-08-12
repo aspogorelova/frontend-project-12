@@ -11,8 +11,8 @@ const AddChannelModal = ({ modalInfo, onHide }) => {
   const dispatch = useDispatch();
 
   const checkUniqueName = (value) => {
-  return !channelsBeforeAdd?.some(channel => channel.name === value);
-}
+    return !channelsBeforeAdd?.some(channel => channel.name === value);
+  }
 
   const validationNewChannelSchema = Yup.object().shape({
     name: Yup.string()
@@ -50,12 +50,14 @@ const AddChannelModal = ({ modalInfo, onHide }) => {
         <Formik
           initialValues={{ name: '' }}
           validationSchema={validationNewChannelSchema}
+          validateOnChange={false}
+          validateOnBlur={false}
           onSubmit={handleSubmit}
         >
           {({
             handleSubmit,
             isSubmitting
-           }) => (
+          }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="name">
                 <Form.Label className="visually-hidden" htmlFor="name">Имя канала</Form.Label>

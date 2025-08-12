@@ -1,37 +1,18 @@
-import { Col, Button, ListGroup, Container, NavItem } from 'react-bootstrap';
+import { Col, Button, ListGroup, Container } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useGetChannelsQuery } from '../services/channelsApi.js';
 import { setActiveChannel, selectActiveChannelId } from "../slices/channelsSlice.js"
-import cn from "classnames";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import StaticChannelBtn from './StaticChannelBtn.jsx';
 import RemovableChannelBtn from './RemovableChannelBtn.jsx';
 
-const ChannelBtn = ({ channel, isActive, onClick }) => {
-  const classes = cn('w-100', 'rounded-0', 'text-start', { 'btn-secondary': isActive });
-
-  return (
-    <NavItem as="li" className="w-100">
-      <Button
-        type="button"
-        className={classes}
-        variant=""
-        onClick={() => onClick(channel.id)}
-      >
-        <span className="me-1"># </span>
-        {channel.name}
-      </Button>
-    </NavItem>
-  )
-}
-
-const renderChannelBtn = ({ channel, activeChannelId, setActiveChannelId }) => {
+const renderChannelBtn = ({ channel, activeChannelId, setActiveChannelId, showModal }) => {
   const isActive = String(channel.id) === String(activeChannelId);
   return (
     channel.removable === false ?
     StaticChannelBtn({ channel, isActive, setActiveChannelId }) :
-    RemovableChannelBtn({ channel, isActive, setActiveChannelId })
+    RemovableChannelBtn({ channel, isActive, setActiveChannelId, showModal })
   )
 }
 
@@ -41,6 +22,7 @@ const Channels = ({ showModal }) => {
   const activeChannelFromState = useSelector(selectActiveChannelId);
   localStorage.setItem('currentChannel', activeChannelFromState);
   const activeChannelId = localStorage.getItem('currentChannel');
+  console.log('channels  ', data);
 
   useEffect(() => {
     dispatch(setActiveChannel(activeChannelId));
@@ -60,7 +42,7 @@ const Channels = ({ showModal }) => {
         </Button>
       </Container>
       <ListGroup as="ul" id='channels-box' className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block" variant="">
-        {data && data.map((channel) => renderChannelBtn({ channel, activeChannelId, setActiveChannelId }))}
+        {data && data.map((channel) => renderChannelBtn({ channel, activeChannelId, setActiveChannelId, showModal }))}
       </ListGroup>
     </Col>
 
