@@ -5,7 +5,6 @@ import { setActiveChannel } from "../slices/channelsSlice.js";
 
 const RemoveChannelModal = ({ modalInfo, onHide }) => {
   const [removeChannel] = useRemoveChannelMutation();
-  console.log('channel in removeChannelModal  ', modalInfo);
   const dispatch = useDispatch();
   const defaultActiveChannel = 1;
   const activeChannelId = localStorage.getItem('currentChannel');

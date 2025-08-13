@@ -31,7 +31,7 @@ const RemovableChannelBtn = ({ isActive, setActiveChannelId, showModal, channel 
         <Dropdown.Item eventKey="delete" href="#" role="button" tabIndex="0" onClick={() => showModal('removing', channel)}>
           Удалить
         </Dropdown.Item>
-        <Dropdown.Item eventKey="rename" href="#" role="button" tabIndex="0">
+        <Dropdown.Item eventKey="rename" href="#" role="button" tabIndex="0" onClick={() => showModal('rename', channel)}>
           Переименовать
         </Dropdown.Item>
       </Dropdown.Menu>
