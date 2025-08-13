@@ -15,6 +15,8 @@ import Channels from './Channels.jsx';
 import Chat from './Chat.jsx';
 import getModal from './getModal.js';
 import { setActiveChannel } from '../slices/channelsSlice.js';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const handleLogout = (dispatch) => {
   localStorage.removeItem('jwttoken');
@@ -85,6 +87,19 @@ function App() {
           <Route path='login' element={<LoginPage />} />
           <Route path='*' element={<ErrorPage />} />
         </Routes>
+
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </Router>
     </div>
   )

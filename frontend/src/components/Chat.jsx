@@ -5,6 +5,7 @@ import { Col, Form, Button, InputGroup } from 'react-bootstrap';
 import '../styles.css';
 import { useGetMessagesQuery, useAddMessageMutation } from '../services/messagesApi.js';
 import { selectActiveChannelId } from '../slices/channelsSlice.js';
+import { useGetChannelsQuery } from '../services/channelsApi.js';
 import { addMessageFromSocket, selectAll } from '../slices/messagesSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 import * as io from 'socket.io-client';
@@ -24,6 +25,7 @@ const Chat = () => {
   const allMessages = useSelector(selectAll);
   const { data: messages, isLoading: isLoadingMessages } = useGetMessagesQuery();
   const idActiveChannel = useSelector(selectActiveChannelId);
+  const { data: channels, isLoading: channelsLoading } = useGetChannelsQuery();  
   const [newMessage, setNewMessage] = useState('');
   const [addMessage, { isLoading: isLoadingMessage }] = useAddMessageMutation();
   const currentUser = localStorage.getItem('username');
@@ -35,6 +37,10 @@ const Chat = () => {
   let filteredMessages;
 
   const filterMessages = (messages) => messages.filter((message) => String(message.channelId) === String(idActiveChannel));
+  const activeChannel = channels?.find(channel => String(channel.id) === String(idActiveChannel));
+  console.log('activeChannel  ', activeChannel);
+  const nameActiveChannel = activeChannel?.name || '';
+  console.log('nameActiveChannel  ', nameActiveChannel);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -81,7 +87,7 @@ const Chat = () => {
       <div className='d-flex flex-column h-100'>
         <div className="mb-4 bg-light p-3 shadow-sm small">
           <p className='m-0'>
-            <strong># general</strong>
+            <strong>{!channelsLoading ? `# ${nameActiveChannel}` : ''}</strong>
             <br />
             <span className="text-muted">{i18nextInstance.t('message', { count: countMessages })}</span>
           </p>

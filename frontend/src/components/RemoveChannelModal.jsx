@@ -2,6 +2,7 @@ import { Modal, Button, CloseButton } from "react-bootstrap";
 import { useRemoveChannelMutation } from "../services/channelsApi.js";
 import { useDispatch } from "react-redux";
 import { setActiveChannel } from "../slices/channelsSlice.js";
+import { toast } from 'react-toastify';
 
 const RemoveChannelModal = ({ modalInfo, onHide }) => {
   const [removeChannel] = useRemoveChannelMutation();
@@ -14,6 +15,16 @@ const RemoveChannelModal = ({ modalInfo, onHide }) => {
     try {
       await removeChannel(modalInfo.item.id).unwrap();
 
+      toast.success('Канал удалён', {
+        icon: (
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="#4CAF50">
+            <path d="M12 0a12 12 0 1012 12A12.014 12.014 0 0012 0zm6.927 8.2l-6.845 9.289a1.011 1.011 0 01-1.43.188l-4.888-3.908a1 1 0 111.25-1.562l4.076 3.261 6.227-8.451a1 1 0 111.61 1.183z"/>
+          </svg>
+        ),
+        className: 'Toastify__toast--success',
+        progressClassName: 'Toastify__progress-bar--success',
+      });
+
       if (modalInfo.item.id === activeChannelId) {
         dispatch(setActiveChannel(defaultActiveChannel))
       }
@@ -21,6 +32,7 @@ const RemoveChannelModal = ({ modalInfo, onHide }) => {
       onHide();
     } catch (error) {
       console.log(`Ошибка удаления канала: ${error}`);
+      toast.error('Ошибка удаления канала');
     }
   }
 

@@ -22,7 +22,6 @@ const Channels = ({ showModal }) => {
   const activeChannelFromState = useSelector(selectActiveChannelId);
   localStorage.setItem('currentChannel', activeChannelFromState);
   const activeChannelId = localStorage.getItem('currentChannel');
-  console.log('channels  ', data);
 
   useEffect(() => {
     dispatch(setActiveChannel(activeChannelId));
