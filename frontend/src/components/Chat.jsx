@@ -38,9 +38,7 @@ const Chat = () => {
 
   const filterMessages = (messages) => messages.filter((message) => String(message.channelId) === String(idActiveChannel));
   const activeChannel = channels?.find(channel => String(channel.id) === String(idActiveChannel));
-  console.log('activeChannel  ', activeChannel);
   const nameActiveChannel = activeChannel?.name || '';
-  console.log('nameActiveChannel  ', nameActiveChannel);
 
   useEffect(() => {
     inputRef.current.focus();

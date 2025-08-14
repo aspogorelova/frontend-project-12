@@ -11,8 +11,14 @@ export const authApi = createApi({
         body: user,
       }),
     }),
-    // Можно добавить другие методы (login, logout и т.д.)
+    login: builder.mutation({
+      query: (user) => ({
+        url: '/login',
+        method: 'POST',
+        body: user,
+      }),
+    }),
   }),
 });
 
-export const { useSignUpMutation } = authApi;
+export const { useSignUpMutation, useLoginMutation } = authApi;

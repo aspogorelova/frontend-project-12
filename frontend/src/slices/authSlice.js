@@ -14,11 +14,13 @@ const authSlice = createSlice({
     setAuthLoading: (state) => {
       state.status = 'loading';
     },
-    logIn: (state, { payload }) => {
-      state.user = payload.user;
+    setAuthData: (state, { payload }) => {
+      state.user = payload.username;
       state.token = payload.token;
       state.status = 'succeeded';
-      // console.log('🔥 Текущий state в authSlice:', current(state));
+      localStorage.setItem('username', payload.user);
+      localStorage.setItem('jwttoken', payload.token);
+      console.log('current users  ', current(state));
     },
     setAuthFailed: (state, { payload }) => {
       state.error = payload;
@@ -31,18 +33,10 @@ const authSlice = createSlice({
       localStorage.removeItem('username');
       localStorage.removeItem('jwttoken');
     },
-    setAuthData: (state, { payload }) => {
-      state.user = payload.username;
-      state.token = payload.token;
-      state.status = 'succeeded';
-      localStorage.setItem('username', payload.username);
-      localStorage.setItem('jwttoken', payload.token);
-      console.log('current users  ', current(state));
-    }
   }
 })
 
-export const { logIn, logOut, setAuthFailed, setAuthLoading, setAuthData } = authSlice.actions;
+export const { logOut, setAuthFailed, setAuthLoading, setAuthData } = authSlice.actions;
 export const selectAuthUser = (state) => state.auth.user;
 export const selectAuthToken = (state) => state.auth.token;
 export const selectAuthStatus = (state) => state.auth.status;

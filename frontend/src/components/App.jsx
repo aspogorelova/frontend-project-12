@@ -7,7 +7,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectAuthToken, logOut, logIn } from '../slices/authSlice.js';
+import { selectAuthToken, logOut, setAuthData } from '../slices/authSlice.js';
 import { Button, Navbar, Container, Row } from 'react-bootstrap';
 import LoginPage from './LoginPage.jsx';
 import SignupPage from './SignUpPage.jsx';
@@ -20,7 +20,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const handleLogout = (dispatch) => {
-  localStorage.removeItem('jwttoken');
+  // localStorage.removeItem('jwttoken');
+  // localStorage.removeItem('username');
   dispatch(logOut());
 }
 
@@ -57,7 +58,7 @@ function App() {
     const user = localStorage.getItem('username');
     const tokenFromLocalStorage = localStorage.getItem('jwttoken');
     if (user && tokenFromLocalStorage) {
-      dispatch(logIn({ user, token: tokenFromLocalStorage }));
+      dispatch(setAuthData({ user, token: tokenFromLocalStorage }));
     }
 
     dispatch(setActiveChannel(1));

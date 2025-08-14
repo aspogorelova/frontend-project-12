@@ -1,12 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logIn, setAuthFailed, selectAuthError } from '../slices/authSlice.js';
+import { setAuthFailed, selectAuthError, setAuthData } from '../slices/authSlice.js';
+import { useLoginMutation } from '../services/authApi.js';
 import { Formik, Form, Field } from 'formik';
-import axios from 'axios';
 import * as Yup from 'yup';
 import { Row, Col, Card, Image, Button, FormControl, FormGroup, Container } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
-import routes from '../routes.jsx';
 import '../styles.css';
 
 const LoginSchema = Yup.object().shape({
@@ -21,6 +20,7 @@ const LoginPage = () => {
   const errorMessage = useSelector(selectAuthError);
   const inputRef = useRef();
   const dispatch = useDispatch();
+  const [login] = useLoginMutation();
   
   useEffect(() => {
     inputRef.current.focus();
@@ -28,13 +28,12 @@ const LoginPage = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const path = routes.loginPagePath()
-      const response = await axios.post(path, values);
-      const token = response.data.token;
+      const response = await login(values).unwrap();
+      const token = response.token;
       localStorage.setItem('jwttoken', token);
       localStorage.setItem('username', values.username);
 
-      dispatch(logIn({
+      dispatch(setAuthData({
         user: values.username,
         token: token,
       }));

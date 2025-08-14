@@ -21,7 +21,6 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
   });
 
   const handleSubmit = async (channel, { setSubmitting, resetForm }) => {
-    console.log('SUBMIT RENAME');
     const newName = {
       name: channel.name,
     }

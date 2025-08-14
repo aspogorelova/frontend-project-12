@@ -11,7 +11,6 @@ const RemoveChannelModal = ({ modalInfo, onHide }) => {
   const activeChannelId = localStorage.getItem('currentChannel');
 
   const handleRemove = async () => {
-    console.log('remove channel');
     try {
       await removeChannel(modalInfo.item.id).unwrap();
 

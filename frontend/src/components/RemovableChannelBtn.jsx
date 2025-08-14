@@ -2,7 +2,6 @@ import cn from "classnames";
 import { Button, Dropdown, ButtonGroup } from "react-bootstrap";
 
 const RemovableChannelBtn = ({ isActive, setActiveChannelId, showModal, channel }) => {
-  console.log('channel in removable_channel_btn  ', channel);
 
   return (
     <Dropdown as={ButtonGroup} className="d-flex">
