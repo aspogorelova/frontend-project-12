@@ -30,11 +30,19 @@ const authSlice = createSlice({
       state.status = 'idle';
       localStorage.removeItem('username');
       localStorage.removeItem('jwttoken');
+    },
+    setAuthData: (state, { payload }) => {
+      state.user = payload.username;
+      state.token = payload.token;
+      state.status = 'succeeded';
+      localStorage.setItem('username', payload.username);
+      localStorage.setItem('jwttoken', payload.token);
+      console.log('current users  ', current(state));
     }
   }
 })
 
-export const { logIn, logOut, setAuthFailed, setAuthLoading } = authSlice.actions;
+export const { logIn, logOut, setAuthFailed, setAuthLoading, setAuthData } = authSlice.actions;
 export const selectAuthUser = (state) => state.auth.user;
 export const selectAuthToken = (state) => state.auth.token;
 export const selectAuthStatus = (state) => state.auth.status;
