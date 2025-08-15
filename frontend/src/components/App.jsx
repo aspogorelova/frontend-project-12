@@ -20,9 +20,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const handleLogout = (dispatch) => {
-  // localStorage.removeItem('jwttoken');
-  // localStorage.removeItem('username');
   dispatch(logOut());
+  dispatch(setActiveChannel(1));
 }
 
 const AuthButton = () => {
@@ -44,7 +43,7 @@ const PrivateRoute = ({ children }) => {
 const renderModal = ({ modalInfo, hideModal }) => {
     if (!modalInfo.type) return null;
 
-    const Component = getModal(modalInfo.type); // компонент модального окна
+    const Component = getModal(modalInfo.type);
     return <Component onHide={hideModal} modalInfo={modalInfo}  />
   }
 

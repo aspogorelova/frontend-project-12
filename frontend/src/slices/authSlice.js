@@ -18,7 +18,7 @@ const authSlice = createSlice({
       state.user = payload.username;
       state.token = payload.token;
       state.status = 'succeeded';
-      localStorage.setItem('username', payload.user);
+      localStorage.setItem('username', payload.username);
       localStorage.setItem('jwttoken', payload.token);
       console.log('current users  ', current(state));
     },
