@@ -9,6 +9,7 @@ import { useGetChannelsQuery } from '../services/channelsApi.js';
 import { addMessageFromSocket, selectAll } from '../slices/messagesSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 import * as io from 'socket.io-client';
+import { selectAuthUser } from '../slices/authSlice.js';
 
 const Chat = () => {
   const i18nextInstance = i18next.createInstance()
@@ -28,7 +29,7 @@ const Chat = () => {
   const { data: channels, isLoading: channelsLoading } = useGetChannelsQuery();  
   const [newMessage, setNewMessage] = useState('');
   const [addMessage, { isLoading: isLoadingMessage }] = useAddMessageMutation();
-  const currentUser = localStorage.getItem('username');
+  const currentUser = useSelector(selectAuthUser);
   const inputRef = useRef();
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
   const host = window.location.host;

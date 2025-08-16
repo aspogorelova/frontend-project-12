@@ -7,7 +7,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectAuthToken, logOut, setAuthData } from '../slices/authSlice.js';
+import { selectAuthToken, logOut, setAuthData, selectAuthUser } from '../slices/authSlice.js';
 import { Button, Navbar, Container, Row } from 'react-bootstrap';
 import LoginPage from './LoginPage.jsx';
 import SignupPage from './SignUpPage.jsx';
@@ -35,9 +35,10 @@ const AuthButton = () => {
 
 const PrivateRoute = ({ children }) => {
   const token = useSelector(selectAuthToken);
+  const currentUser = useSelector(selectAuthUser);
   const location = useLocation();
 
-  return token ? children : <Navigate to='login' state={{ from: location }}></Navigate>;
+  return token && currentUser ? children : <Navigate to='login' state={{ from: location }}></Navigate>;
 }
 
 const renderModal = ({ modalInfo, hideModal }) => {

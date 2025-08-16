@@ -11,10 +11,9 @@ import {
 } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useSignUpMutation } from '../services/authApi.js';
-import { useLocation, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setAuthData } from '../slices/authSlice.js';
 
-// Схема валидации
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
     .min(3, 'От 3 до 20 симоволов')

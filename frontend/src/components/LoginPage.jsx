@@ -34,7 +34,7 @@ const LoginPage = () => {
       localStorage.setItem('username', values.username);
 
       dispatch(setAuthData({
-        user: values.username,
+        username: values.username,
         token: token,
       }));
 
