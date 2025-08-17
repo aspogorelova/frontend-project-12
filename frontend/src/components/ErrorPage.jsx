@@ -1,6 +1,9 @@
 import { Container, Row, Col, Image } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 const ErrorPage = () => {
+  const { t } = useTranslation();
+
   return (
     <Container fluid className="h-100" id="chat">
       <Row className="h-100">
@@ -11,8 +14,8 @@ const ErrorPage = () => {
             fluid
             className="h-25"
           />
-          <h1 className="h4 text-muted">Страница не найдена</h1>
-          <p className="text-muted">Но вы можете перейти <a href="/">на главную страницу</a></p>
+          <h1 className="h4 text-muted">{t('errorPage.pageNotFound')}</h1>
+          <p className="text-muted">{t('errorPage.goTo')}<a href="/">{t('errorPage.mainPage')}</a></p>
         </Col>
       </Row>
       <div className="Toastify"></div>

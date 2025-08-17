@@ -7,13 +7,16 @@ import * as Yup from 'yup';
 import { Row, Col, Card, Image, Button, FormControl, FormGroup, Container } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles.css';
-
-const LoginSchema = Yup.object().shape({
-  username: Yup.string().required('Заполните это поле'),
-  password: Yup.string().required('Заполните это поле'),
-})
+import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {
+  const { t } = useTranslation();
+
+  const LoginSchema = Yup.object().shape({
+    username: Yup.string().required(t('error.fillInput')),
+    password: Yup.string().required(t('error.fillInput')),
+  })
+
   const location = useLocation();
   const previousePath = location.state?.from || '/';
   const navigator = useNavigate();
@@ -21,7 +24,7 @@ const LoginPage = () => {
   const inputRef = useRef();
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
-  
+
   useEffect(() => {
     inputRef.current.focus();
   }, [])
@@ -41,7 +44,7 @@ const LoginPage = () => {
       navigator(previousePath);
 
     } catch (error) {
-      dispatch(setAuthFailed('Неверные имя пользователя или пароль'));
+      dispatch(setAuthFailed(t('error.failedNameOrPassword')));
     };
   };
 
@@ -63,20 +66,20 @@ const LoginPage = () => {
               >
                 {({ isSubmitting }) => (
                   <Form className="col-12 col-md-6 mt-3 mt-md-0">
-                    <h1 className="text-center mb-4">Войти</h1>
+                    <h1 className="text-center mb-4">{t('common.enter')}</h1>
                     <FormGroup controlId="username" className="form-floating mb-3">
                       <Field ref={inputRef} type="text" name="username" autocomplete="username" required placeholder="Ваш ник" as={FormControl} />
-                      <label htmlFor='username'>Ваш ник</label>
+                      <label htmlFor='username'>{t('signUpPage.nik')}</label>
                     </FormGroup>
                     <FormGroup controlId="password" className="form-floating mb-4">
                       <Field type="password" name="password" autocomplete="current-password" required placeholder="Пароль" as={FormControl} />
-                      <label htmlFor='password'>Пароль</label>
+                      <label htmlFor='password'>{t('signUpPage.password')}</label>
                       {errorMessage && (
                         <div className='invalid-tooltip'>{errorMessage}</div>
                       )}
                     </FormGroup>
                     <Button type="submit" variant="outline-primary" block disabled={isSubmitting} className='w-100 mb-3 btn btn-outline-primary'>
-                      Войти
+                      {t('common.enter')}
                     </Button>
                   </Form>
                 )}
@@ -84,8 +87,8 @@ const LoginPage = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>Нет аккаунта?</span>
-                <a href="/signup"> Регистрация</a>
+                <span>{t('signUpPage.noAccount')}</span>
+                <a href="/signup">{t('signUpPage.register')}</a>
               </div>
             </Card.Footer>
           </Card>

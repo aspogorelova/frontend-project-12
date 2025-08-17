@@ -1,7 +1,9 @@
 import cn from "classnames";
 import { Button, Dropdown, ButtonGroup } from "react-bootstrap";
+import { useTranslation } from 'react-i18next';
 
 const RemovableChannelBtn = ({ isActive, setActiveChannelId, showModal, channel }) => {
+  const { t } = useTranslation();
 
   return (
     <Dropdown as={ButtonGroup} className="d-flex">
@@ -23,15 +25,15 @@ const RemovableChannelBtn = ({ isActive, setActiveChannelId, showModal, channel 
           { 'btn-secondary': isActive }
         )}
       >
-        <span className="visually-hidden">Управление каналом</span>
+        <span className="visually-hidden">{t('channels.manageChannel')}</span>
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
         <Dropdown.Item eventKey="delete" href="#" role="button" tabIndex="0" onClick={() => showModal('removing', channel)}>
-          Удалить
+          {t('common.remove')}
         </Dropdown.Item>
         <Dropdown.Item eventKey="rename" href="#" role="button" tabIndex="0" onClick={() => showModal('rename', channel)}>
-          Переименовать
+          {t('common.rename')}
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

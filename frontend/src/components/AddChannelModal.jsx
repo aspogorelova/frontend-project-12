@@ -5,9 +5,10 @@ import { useDispatch } from "react-redux";
 import { useGetChannelsQuery, useAddChannelMutation } from "../services/channelsApi";
 import { Modal, Form, Button, CloseButton } from "react-bootstrap";
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
-
-const AddChannelModal = ({ modalInfo, onHide }) => {
+const AddChannelModal = ({ onHide }) => {
+  const { t } = useTranslation();
   const [addChannel] = useAddChannelMutation();
   const { data: channelsBeforeAdd } = useGetChannelsQuery();
   const dispatch = useDispatch();
@@ -18,10 +19,10 @@ const AddChannelModal = ({ modalInfo, onHide }) => {
 
   const validationNewChannelSchema = Yup.object().shape({
     name: Yup.string()
-      .required("Обязательное поле")
-      .min(3, "От 3 до 20 символов")
-      .max(20, "От 3 до 20 символов")
-      .test('unique', 'Должно быть уникальным', checkUniqueName),
+      .required(t('error.requiredInput'))
+      .min(3, t('error.min3max20'))
+      .max(20, t('error.min3max20'))
+      .test('unique', t('error.unique'), checkUniqueName),
   });
 
   const handleSubmit = async (channel, { setSubmitting, resetForm }) => {
@@ -33,7 +34,7 @@ const AddChannelModal = ({ modalInfo, onHide }) => {
     try {
       const { id } = await addChannel(newChannel).unwrap();
 
-      toast.success('Канал создан', {
+      toast.success(t('channels.channelCreated'), {
         icon: (
           <svg viewBox="0 0 24 24" width="20" height="20" fill="#4CAF50">
             <path d="M12 0a12 12 0 1012 12A12.014 12.014 0 0012 0zm6.927 8.2l-6.845 9.289a1.011 1.011 0 01-1.43.188l-4.888-3.908a1 1 0 111.25-1.562l4.076 3.261 6.227-8.451a1 1 0 111.61 1.183z" />
@@ -47,7 +48,7 @@ const AddChannelModal = ({ modalInfo, onHide }) => {
       resetForm();
       onHide();
     } catch (error) {
-      console.log('Ошибка отравки нового канала на сервер:  ', error);
+      console.log(t('error.errorCreateChannel'), error);
     } finally {
       setSubmitting(false);
     }
@@ -56,7 +57,7 @@ const AddChannelModal = ({ modalInfo, onHide }) => {
   return (
     <Modal show centered onHide={onHide}>
       <Modal.Header>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('channels.addChannel')}</Modal.Title>
         <CloseButton aria-label="Close" className='btn' data-bs-dismiss='modal' onClick={onHide} />
       </Modal.Header>
       <Modal.Body>
@@ -73,13 +74,13 @@ const AddChannelModal = ({ modalInfo, onHide }) => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="name">
-                <Form.Label className="visually-hidden" htmlFor="name">Имя канала</Form.Label>
+                <Form.Label className="visually-hidden" htmlFor="name">{t('channels.nameChannel')}</Form.Label>
                 <Field id='name' name="name" className="mb-2" as={Form.Control} autoFocus />
                 <ErrorMessage component="div" className="invalid-feedback d-block" name="name" />
               </Form.Group>
               <div className="d-flex justify-content-end">
-                <Button variant="secondary btn me-2" onClick={onHide} disabled={isSubmitting}>Отменить</Button>
-                <Button type="submit" variant="primary btn" disabled={isSubmitting}>Отправить</Button>
+                <Button variant="secondary btn me-2" onClick={onHide} disabled={isSubmitting}>{t('common.cancel')}</Button>
+                <Button type="submit" variant="primary btn" disabled={isSubmitting}>{t('common.send')}</Button>
               </div>
             </Form>
           )}

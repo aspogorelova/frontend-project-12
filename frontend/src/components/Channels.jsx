@@ -6,17 +6,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import StaticChannelBtn from './StaticChannelBtn.jsx';
 import RemovableChannelBtn from './RemovableChannelBtn.jsx';
+import { useTranslation } from 'react-i18next';
 
 const renderChannelBtn = ({ channel, activeChannelId, setActiveChannelId, showModal }) => {
   const isActive = String(channel.id) === String(activeChannelId);
-  return (
-    channel.removable === false ?
-    StaticChannelBtn({ channel, isActive, setActiveChannelId }) :
-    RemovableChannelBtn({ channel, isActive, setActiveChannelId, showModal })
-  )
+
+  return channel.removable === false ? (
+    <StaticChannelBtn 
+      channel={channel} 
+      isActive={isActive} 
+      setActiveChannelId={setActiveChannelId} 
+    />
+  ) : (
+    <RemovableChannelBtn 
+      channel={channel} 
+      isActive={isActive} 
+      setActiveChannelId={setActiveChannelId} 
+      showModal={showModal} 
+    />
+  );
 }
 
 const Channels = ({ showModal }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { data } = useGetChannelsQuery();
   const activeChannelFromState = useSelector(selectActiveChannelId);
@@ -34,7 +46,7 @@ const Channels = ({ showModal }) => {
   return (
     <Col xs={4} md={2} className="border-end px-0 bg-light flex-column h-100 d-flex">
       <Container className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <strong>Каналы</strong>
+        <strong>{t('channels.channels')}</strong>
         <Button type='button' className="btn-group-vertical p-0 ms-auto text-primary" variant="" onClick={() => showModal('adding')}>
           <PlusSquare size={20} />
           <span className='visually-hidden'>+</span>

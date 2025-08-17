@@ -1,5 +1,3 @@
-import i18next from 'i18next';
-import resources from '../locales/index.js';
 import { useEffect, useRef, useState } from 'react';
 import { Col, Form, Button, InputGroup } from 'react-bootstrap';
 import '../styles.css';
@@ -10,23 +8,16 @@ import { addMessageFromSocket, selectAll } from '../slices/messagesSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 import * as io from 'socket.io-client';
 import { selectAuthUser } from '../slices/authSlice.js';
+import { useTranslation } from 'react-i18next';
 
 const Chat = () => {
-  const i18nextInstance = i18next.createInstance()
-  const runApp = async () => {
-    await i18nextInstance.init({
-      lng: 'ru',
-      debug: false,
-      resources,
-    })
-  }
-  runApp();
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const allMessages = useSelector(selectAll);
-  const { data: messages, isLoading: isLoadingMessages } = useGetMessagesQuery();
+  const { isLoading: isLoadingMessages } = useGetMessagesQuery();
   const idActiveChannel = useSelector(selectActiveChannelId);
-  const { data: channels, isLoading: channelsLoading } = useGetChannelsQuery();  
+  const { data: channels, isLoading: channelsLoading } = useGetChannelsQuery();
   const [newMessage, setNewMessage] = useState('');
   const [addMessage, { isLoading: isLoadingMessage }] = useAddMessageMutation();
   const currentUser = useSelector(selectAuthUser);
@@ -88,14 +79,13 @@ const Chat = () => {
           <p className='m-0'>
             <strong>{!channelsLoading ? `# ${nameActiveChannel}` : ''}</strong>
             <br />
-            <span className="text-muted">{i18nextInstance.t('message', { count: countMessages })}</span>
+            <span className="text-muted">{t('chat.message', { count: countMessages })}</span>
           </p>
         </div>
 
-        {/* Messages box */}
         <div id="messages-box" className="chat-messages overflow-auto px-5">
           {isLoadingMessages ? (
-            <span> Немного терпения. Сообщения загружаются...</span>
+            <span>{t('chat.loadingMessages')}</span>
           ) : (
             filteredMessages.length > 0 && filteredMessages
               .map((message) => (
@@ -109,7 +99,6 @@ const Chat = () => {
           )}
         </div>
 
-        {/* Message input section */}
         <div className=" mt-auto px-5 py-3">
           <Form noValidate className='p-1 border rounded-2' onSubmit={handleSubmit}>
             <InputGroup className="has-validation">
@@ -117,8 +106,8 @@ const Chat = () => {
                 (
                   <Form.Control
                     onChange={handleChangeInput}
-                    aria-label='Новое сообщение'
-                    placeholder="Идет отправка сообщения..."
+                    aria-label={t('chat.newMessage')}
+                    placeholder={t('chat.loadingPostMessage')}
                     name="body"
                     className="border-0 p-0 ps-2"
                     value=''
@@ -127,8 +116,8 @@ const Chat = () => {
                 (
                   <Form.Control
                     onChange={handleChangeInput}
-                    aria-label='Новое сообщение'
-                    placeholder="Введите сообщение..."
+                    aria-label={t('chat.newMessage')}
+                    placeholder={t('chat.enterMessage')}
                     name="body"
                     className="border-0 p-0 ps-2"
                     value={newMessage}
@@ -141,7 +130,7 @@ const Chat = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor" className="bi bi-arrow-right-square">
                   <path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
                 </svg>
-                <span className="visually-hidden">Отправить</span>
+                <span className="visually-hidden">{t('chat.sendMessage')}</span>
               </Button>
             </InputGroup>
           </Form>

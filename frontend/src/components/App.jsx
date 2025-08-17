@@ -7,7 +7,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectAuthToken, logOut, setAuthData, selectAuthUser } from '../slices/authSlice.js';
+import { selectAuthToken, logOut, selectAuthUser } from '../slices/authSlice.js';
 import { Button, Navbar, Container, Row } from 'react-bootstrap';
 import LoginPage from './LoginPage.jsx';
 import SignupPage from './SignUpPage.jsx';
@@ -18,6 +18,7 @@ import getModal from './getModal.js';
 import { setActiveChannel } from '../slices/channelsSlice.js';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
 
 const handleLogout = (dispatch) => {
   dispatch(logOut());
@@ -25,11 +26,12 @@ const handleLogout = (dispatch) => {
 }
 
 const AuthButton = () => {
+  const { t } = useTranslation();
   const token = useSelector(selectAuthToken);
   const dispatch = useDispatch();
 
   return (
-    token ? <Button onClick={() => handleLogout(dispatch)}>Выйти</Button> : null
+    token ? <Button onClick={() => handleLogout(dispatch)}>{t('common.exit')}</Button> : null
   );
 }
 
@@ -54,13 +56,7 @@ function App() {
   const hideModal = () => setModalInfo({ type: null, item: null });
   const showModal = (type, item = null) => setModalInfo({ type, item });
 
-  useEffect(() => {    
-    const user = localStorage.getItem('username');
-    const tokenFromLocalStorage = localStorage.getItem('jwttoken');
-    if (user && tokenFromLocalStorage) {
-      dispatch(setAuthData({ user, token: tokenFromLocalStorage }));
-    }
-
+  useEffect(() => {
     dispatch(setActiveChannel(1));
   }, []);
 
