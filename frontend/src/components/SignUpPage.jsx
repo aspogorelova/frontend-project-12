@@ -35,6 +35,43 @@ const SignupPage = () => {
   const [signup] = useSignUpMutation();
   const navigate = useNavigate();
 
+  const validate = (values) => {
+    const errors = {};
+
+    if (!values.username) {
+      errors.username = t('error.requiredInput');
+      return errors;
+    }
+
+     if (values.username.length < 3 || values.username.length > 20) {
+      errors.username = t('error.min3max20');
+      return errors;
+    }
+
+     if (!values.password) {
+      errors.password = t('error.requiredInput');
+      return errors;
+    }
+
+    if (values.password.length < 6) {
+      errors.password = t('error.min6');
+      return errors;
+    }
+
+    if (values.confirmPassword !== values.password) {
+      errors.confirmPassword = t('error.passwordsShoudBeEqual');
+      return errors;
+    }
+
+    if (!values.confirmPassword) {
+      errors.confirmPassword = t('error.passwordsShoudBeEqual');
+      return errors;
+    }
+
+    return {};
+    
+  }
+
   const handleSubmit = async (values, { setErrors, setSubmitting }) => {
     try {
       const newUser = {
@@ -81,7 +118,7 @@ const SignupPage = () => {
                   password: '',
                   confirmPassword: ''
                 }}
-                validationSchema={SignupSchema}
+                validate={validate}
                 validateOnChange={false}
                 validateOnBlur={false}
                 onSubmit={handleSubmit}
@@ -105,8 +142,8 @@ const SignupPage = () => {
                             isInvalid={touched.username && !!errors.username}
                           />
                           <ErrorMessage name="username">
-                            {() => (
-                              <div className="invalid-tooltip" />
+                            {(err) => (
+                              <div className="invalid-tooltip">{err}</div>
                             )}
                           </ErrorMessage>
                         </FloatingLabel>
@@ -123,12 +160,12 @@ const SignupPage = () => {
                           <BForm.Control
                             {...field}
                             type="password"
-                            placeholder={t('error.min6')}
+                            placeholder={t('error.min6Symbols')}
                             isInvalid={touched.password && !!errors.password}
                           />
                           <ErrorMessage name="password">
-                            {() => (
-                              <div className="invalid-tooltip" />
+                            {(err) => (
+                              <div className="invalid-tooltip">{err}</div>
                             )}
                           </ErrorMessage>
                         </FloatingLabel>
