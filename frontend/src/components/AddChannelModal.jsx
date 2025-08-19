@@ -6,12 +6,22 @@ import { useGetChannelsQuery, useAddChannelMutation } from "../services/channels
 import { Modal, Form, Button, CloseButton } from "react-bootstrap";
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
+import { useEffect } from 'react';
 
 const AddChannelModal = ({ onHide }) => {
   const { t } = useTranslation();
   const [addChannel] = useAddChannelMutation();
   const { data: channelsBeforeAdd } = useGetChannelsQuery();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    try {
+      leoProfanity.loadDictionary('ru');
+    } catch (error) {
+      console.error('Failed to load Russian dictionary for profanity filter:', error);
+    }
+  }, []);
 
   const checkUniqueName = (value) => {
     return !channelsBeforeAdd?.some(channel => channel.name === value);
@@ -26,8 +36,9 @@ const AddChannelModal = ({ onHide }) => {
   });
 
   const handleSubmit = async (channel, { setSubmitting, resetForm }) => {
+    const censoredName = leoProfanity.clean(channel.name);
     const newChannel = {
-      name: channel.name,
+      name: censoredName,
       removable: true,
     }
 

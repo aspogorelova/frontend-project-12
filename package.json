@@ -33,6 +33,7 @@
     "fastify": "^5.4.0",
     "formik": "^2.4.6",
     "i18next": "^25.3.6",
+    "leo-profanity": "^1.8.0",
     "pino": "^9.7.0",
     "react-bootstrap": "^2.10.10",
     "react-bootstrap-icons": "^1.11.6",

@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as io from 'socket.io-client';
 import { selectAuthUser } from '../slices/authSlice.js';
 import { useTranslation } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
 
 const Chat = () => {
   const { t } = useTranslation();
@@ -33,6 +34,12 @@ const Chat = () => {
   const nameActiveChannel = activeChannel?.name || '';
 
   useEffect(() => {
+    try {
+      leoProfanity.loadDictionary('ru');
+    } catch (error) {
+      console.error('Failed to load Russian dictionary for profanity filter:', error);
+    }
+
     inputRef.current.focus();
 
     socket = io.connect(socketURL);
@@ -56,8 +63,10 @@ const Chat = () => {
     const messageText = newMessage;
     if (!messageText) return;
 
+    const censoredMessage = leoProfanity.clean(messageText);
+
     const message = {
-      body: messageText,
+      body: censoredMessage,
       channelId: idActiveChannel,
       username: currentUser,
     }
