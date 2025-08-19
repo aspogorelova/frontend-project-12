@@ -14,22 +14,10 @@ import { useSignUpMutation } from '../services/authApi.js';
 import { useNavigate } from 'react-router-dom';
 import { setAuthData } from '../slices/authSlice.js';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const SignupPage = () => {
   const { t } = useTranslation();
-
-  const SignupSchema = Yup.object().shape({
-    username: Yup.string()
-      .min(3, t('error.min3max20'))
-      .max(20, t('error.min3max20'))
-      .required(t('error.requiredInput')),
-    password: Yup.string()
-      .min(6, t('error.min6'))
-      .required(t('error.requiredInput')),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], t('error.passwordsShoudBeEqual'))
-      .required(t('error.passwordsShoudBeEqual')),
-  });
 
   const dispatch = useDispatch();
   const [signup] = useSignUpMutation();
@@ -43,12 +31,12 @@ const SignupPage = () => {
       return errors;
     }
 
-     if (values.username.length < 3 || values.username.length > 20) {
+    if (values.username.length < 3 || values.username.length > 20) {
       errors.username = t('error.min3max20');
       return errors;
     }
 
-     if (!values.password) {
+    if (!values.password) {
       errors.password = t('error.requiredInput');
       return errors;
     }
@@ -69,7 +57,7 @@ const SignupPage = () => {
     }
 
     return {};
-    
+
   }
 
   const handleSubmit = async (values, { setErrors, setSubmitting }) => {
@@ -90,7 +78,21 @@ const SignupPage = () => {
 
     } catch (error) {
       setSubmitting(false);
-      if (error.status === 409) {
+      if (
+        error.status === 'FETCH_ERROR' ||
+        error.message?.includes('Failed to fetch') ||
+        !navigator.onLine
+      ) {
+        toast.error(t('error.errorConnect'), {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+      } else if (error.status === 409) {
         setErrors({ username: error, password: error, confirmPassword: t('error.suchUserAlreadyExists') });
       } else {
         setErrors({ username: error, password: error, confirmPassword: t('error.errorRegistration') });

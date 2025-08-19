@@ -24,6 +24,8 @@ export default {
       passwordsShoudBeEqual: 'Пароли должны совпадать',
       suchUserAlreadyExists: 'Такой пользователь уже существует',
       errorRegistration: 'Ошибка регистрации',
+      errorConnect: 'Ошибка соединения',
+      errorServer: 'Ошибка сервера',
 
     },
     channels: {

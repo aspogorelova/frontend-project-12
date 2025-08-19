@@ -8,6 +8,7 @@ import { Row, Col, Card, Image, Button, FormControl, FormGroup, Container } from
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles.css';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -44,7 +45,37 @@ const LoginPage = () => {
       navigator(previousePath);
 
     } catch (error) {
-      dispatch(setAuthFailed(t('error.failedNameOrPassword')));
+      if (
+        error.status === 'FETCH_ERROR' ||
+        error.message?.includes('Failed to fetch') ||
+        !navigator.onLine
+      ) {
+        toast.error(t('error.errorConnect'), {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+      }
+      else if (typeof error.status === 'number' && error.status >= 500) {
+        toast.error(t('error.errorServer'), {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+      }
+      else {
+        dispatch(setAuthFailed(t('error.failedNameOrPassword')));
+      }
+
+      console.log('ERROR HANDLED:', error);
     };
   };
 
