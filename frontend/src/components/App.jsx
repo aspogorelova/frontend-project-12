@@ -44,11 +44,11 @@ const PrivateRoute = ({ children }) => {
 }
 
 const renderModal = ({ modalInfo, hideModal }) => {
-    if (!modalInfo.type) return null;
+  if (!modalInfo.type) return null;
 
-    const Component = getModal(modalInfo.type);
-    return <Component onHide={hideModal} modalInfo={modalInfo}  />
-  }
+  const Component = getModal(modalInfo.type);
+  return <Component onHide={hideModal} modalInfo={modalInfo} />
+}
 
 function App() {
   const dispatch = useDispatch();
