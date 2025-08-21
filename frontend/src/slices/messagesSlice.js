@@ -1,4 +1,4 @@
-import { createSlice, createEntityAdapter, current } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { messagesApi } from "../services/messagesApi.js";
 
 const messagesAdapter = createEntityAdapter();
@@ -10,8 +10,6 @@ const messagesSlice = createSlice({
   reducers: {
     addMessageFromSocket: (state, action) => {
       messagesAdapter.upsertOne(state, action.payload);
-      console.log('current MESSAGES state after add new mess  ', current(state));
-
     },
   },
   extraReducers(builder) {
@@ -19,7 +17,6 @@ const messagesSlice = createSlice({
       messagesApi.endpoints.getMessages.matchFulfilled,
       (state,action) => {
         messagesAdapter.upsertMany(state, action.payload);
-        console.log('current MESSAGES state  ', current(state));
       }
     )
   }

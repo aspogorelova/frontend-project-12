@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: localStorage.getItem('username') || null,
@@ -20,7 +20,6 @@ const authSlice = createSlice({
       state.status = 'succeeded';
       localStorage.setItem('username', payload.username);
       localStorage.setItem('jwttoken', payload.token);
-      console.log('current users  ', current(state));
     },
     setAuthFailed: (state, { payload }) => {
       state.error = payload;

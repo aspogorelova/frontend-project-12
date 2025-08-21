@@ -1,4 +1,4 @@
-import { createSlice, createEntityAdapter, current } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { channelsApi } from "../services/channelsApi";
 
 const channelsAdapter = createEntityAdapter();
@@ -20,7 +20,6 @@ const channelsSlice = createSlice({
         channelsApi.endpoints.getChannels.matchFulfilled,
         (state, action) => {
           channelsAdapter.setAll(state, action.payload);
-          // console.log('current channels state  ', current(state));
         }
       )
       .addMatcher(

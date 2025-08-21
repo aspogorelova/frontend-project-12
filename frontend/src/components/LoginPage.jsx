@@ -74,8 +74,6 @@ const LoginPage = () => {
       else {
         dispatch(setAuthFailed(t('error.failedNameOrPassword')));
       }
-
-      console.log('ERROR HANDLED:', error);
     };
   };
 
