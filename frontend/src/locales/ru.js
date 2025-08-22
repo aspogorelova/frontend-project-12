@@ -26,6 +26,7 @@ export default {
       errorRegistration: 'Ошибка регистрации',
       errorConnect: 'Ошибка соединения',
       errorServer: 'Ошибка сервера',
+      UnknownError: 'Неизвестная ошибка',
 
     },
     channels: {

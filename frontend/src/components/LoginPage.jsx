@@ -45,7 +45,21 @@ const LoginPage = () => {
       navigator(previousePath);
 
     } catch (error) {
-      if (
+      console.log('ERROR  ', error);
+      if (error.status === 401) {
+        dispatch(setAuthFailed(t('error.failedNameOrPassword')));
+      } else if (typeof error.status === 'number' && error.status >= 500) {
+        toast.error(t('error.errorServer'), {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+      }
+      else if (
         error.status === 'FETCH_ERROR' ||
         error.message?.includes('Failed to fetch') ||
         !navigator.onLine
@@ -60,19 +74,8 @@ const LoginPage = () => {
           theme: "light",
         });
       }
-      else if (typeof error.status === 'number' && error.status >= 500) {
-        toast.error(t('error.errorServer'), {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "light",
-        });
-      }
       else {
-        dispatch(setAuthFailed(t('error.failedNameOrPassword')));
+        dispatch(setAuthFailed(t('error.UnknownError')));
       }
     };
   };
