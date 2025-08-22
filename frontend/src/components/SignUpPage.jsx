@@ -41,7 +41,7 @@ const SignupPage = () => {
     }
 
     if (values.password.length < 6) {
-      errors.password = t('error.min6');
+      errors.password = t('error.min6Symbols');
       return errors;
     }
 
@@ -77,9 +77,11 @@ const SignupPage = () => {
 
     } catch (error) {
       setSubmitting(false);
+      const errorMessage = typeof error === 'string' ? error : error?.message || 'Unknown error';
+
       if (
         error.status === 'FETCH_ERROR' ||
-        error.message?.includes('Failed to fetch') ||
+        errorMessage.includes('Failed to fetch') ||
         !navigator.onLine
       ) {
         toast.error(t('error.errorConnect'), {
@@ -92,9 +94,9 @@ const SignupPage = () => {
           theme: "light",
         });
       } else if (error.status === 409) {
-        setErrors({ username: error, password: error, confirmPassword: t('error.suchUserAlreadyExists') });
+        setErrors({ username: '', password: '', confirmPassword: t('error.suchUserAlreadyExists') });
       } else {
-        setErrors({ username: error, password: error, confirmPassword: t('error.errorRegistration') });
+        setErrors({ username: '', password: '', confirmPassword: t('error.errorRegistration') });
       }
     }
   }
