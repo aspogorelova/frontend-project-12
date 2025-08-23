@@ -10,10 +10,10 @@ import * as io from 'socket.io-client';
 import { selectAuthUser } from '../slices/authSlice.js';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
+import enProfanityWords from '../utils/enWords.js';
 
 const Chat = () => {
   const { t } = useTranslation();
-
   const dispatch = useDispatch();
   const allMessages = useSelector(selectAll);
   const { isLoading: isLoadingMessages } = useGetMessagesQuery();
@@ -36,6 +36,7 @@ const Chat = () => {
   useEffect(() => {
     try {
       leoProfanity.loadDictionary('ru');
+      leoProfanity.add(enProfanityWords)
     } catch (error) {
       console.error('Failed to load Russian dictionary for profanity filter:', error);
     }

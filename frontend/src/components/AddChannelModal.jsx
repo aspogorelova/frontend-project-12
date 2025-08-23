@@ -7,6 +7,7 @@ import { Modal, Form, Button, CloseButton } from "react-bootstrap";
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
+import enProfanityWords from '../utils/enWords.js';
 import { useEffect } from 'react';
 
 const AddChannelModal = ({ onHide }) => {
@@ -18,6 +19,7 @@ const AddChannelModal = ({ onHide }) => {
   useEffect(() => {
     try {
       leoProfanity.loadDictionary('ru');
+      leoProfanity.add(enProfanityWords);
     } catch (error) {
       console.error('Failed to load Russian dictionary for profanity filter:', error);
     }
