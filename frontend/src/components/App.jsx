@@ -20,7 +20,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useTranslation } from 'react-i18next'
 
-const handleLogout = (dispatch) => {
+const handleLogout = dispatch => {
   dispatch(logOut())
   dispatch(setActiveChannel(1))
 }
@@ -40,14 +40,26 @@ const PrivateRoute = ({ children }) => {
   const currentUser = useSelector(selectAuthUser)
   const location = useLocation()
 
-  return token && currentUser ? children : <Navigate to="login" state={{ from: location }}></Navigate>
+  return token && currentUser
+    ? children
+    : (
+      <Navigate
+        to="login"
+        state={{ from: location }}
+      ></Navigate>
+    )
 }
 
 const renderModal = ({ modalInfo, hideModal }) => {
   if (!modalInfo.type) return null
 
   const Component = getModal(modalInfo.type)
-  return <Component onHide={hideModal} modalInfo={modalInfo} />
+  return (
+    <Component
+      onHide={hideModal}
+      modalInfo={modalInfo}
+    />
+  )
 }
 
 function App() {
@@ -63,7 +75,12 @@ function App() {
   return (
     <div className="d-flex flex-column h-100">
       <Router>
-        <Navbar expand="lg" variant="light" bg="white" className="shadow-sm">
+        <Navbar
+          expand="lg"
+          variant="light"
+          bg="white"
+          className="shadow-sm"
+        >
           <Container>
             <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
             <AuthButton></AuthButton>
@@ -71,20 +88,32 @@ function App() {
         </Navbar>
 
         <Routes>
-          <Route path="/" element={
-            <PrivateRoute>
-              <Container className="h-100 my-4 overflow-hidden rounded shadow">
-                <Row className="h-100 bg-white flex-md-row">
-                  <Channels showModal={showModal} />
-                  <Chat />
-                </Row>
-                {renderModal({ modalInfo, hideModal })}
-              </Container>
-            </PrivateRoute>
-          } />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="*" element={<ErrorPage />} />
-          <Route path="signup" element={<SignupPage />} />
+          <Route
+            path="/"
+            element={(
+              <PrivateRoute>
+                <Container className="h-100 my-4 overflow-hidden rounded shadow">
+                  <Row className="h-100 bg-white flex-md-row">
+                    <Channels showModal={showModal} />
+                    <Chat />
+                  </Row>
+                  {renderModal({ modalInfo, hideModal })}
+                </Container>
+              </PrivateRoute>
+            )}
+          />
+          <Route
+            path="login"
+            element={<LoginPage />}
+          />
+          <Route
+            path="*"
+            element={<ErrorPage />}
+          />
+          <Route
+            path="signup"
+            element={<SignupPage />}
+          />
         </Routes>
 
         <ToastContainer

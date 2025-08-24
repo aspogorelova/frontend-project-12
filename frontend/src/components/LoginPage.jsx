@@ -30,7 +30,7 @@ const LoginPage = () => {
     inputRef.current.focus()
   }, [])
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async values => {
     try {
       const response = await login(values).unwrap()
       const token = response.token
@@ -43,7 +43,6 @@ const LoginPage = () => {
       }))
 
       navigator(previousePath)
-
     } catch (error) {
       console.log('ERROR  ', error)
       if (error.status === 401) {
@@ -59,9 +58,9 @@ const LoginPage = () => {
           theme: 'light',
         })
       } else if (
-        error.status === 'FETCH_ERROR' ||
-        error.message?.includes('Failed to fetch') ||
-        !navigator.onLine
+        error.status === 'FETCH_ERROR'
+        || error.message?.includes('Failed to fetch')
+        || !navigator.onLine
       ) {
         toast.error(t('error.errorConnect'), {
           position: 'top-right',
@@ -79,13 +78,28 @@ const LoginPage = () => {
   }
 
   return (
-    <Container fluid className="h-100">
+    <Container
+      fluid
+      className="h-100"
+    >
       <Row className="h-100 justify-content-center align-items-center">
-        <Col xs={12} md={8} xxl={6}>
+        <Col
+          xs={12}
+          md={8}
+          xxl={6}
+        >
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
-              <Col xs={12} md={6} className="d-flex align-items-center justify-content-center">
-                <Image src="./avatarAvtor.jpg" roundedCircle alt="Войти" />
+              <Col
+                xs={12}
+                md={6}
+                className="d-flex align-items-center justify-content-center"
+              >
+                <Image
+                  src="./avatarAvtor.jpg"
+                  roundedCircle
+                  alt="Войти"
+                />
               </Col>
               <Formik
                 initialValues={{ username: '', password: '' }}
@@ -97,18 +111,45 @@ const LoginPage = () => {
                 {({ isSubmitting }) => (
                   <Form className="col-12 col-md-6 mt-3 mt-md-0">
                     <h1 className="text-center mb-4">{t('common.enter')}</h1>
-                    <FormGroup controlId="username" className="form-floating mb-3">
-                      <Field ref={inputRef} type="text" name="username" autocomplete="username" required placeholder="Ваш ник" as={FormControl} />
+                    <FormGroup
+                      controlId="username"
+                      className="form-floating mb-3"
+                    >
+                      <Field
+                        ref={inputRef}
+                        type="text"
+                        name="username"
+                        autocomplete="username"
+                        required
+                        placeholder="Ваш ник"
+                        as={FormControl}
+                      />
                       <label htmlFor="username">{t('signUpPage.nik')}</label>
                     </FormGroup>
-                    <FormGroup controlId="password" className="form-floating mb-4">
-                      <Field type="password" name="password" autocomplete="current-password" required placeholder="Пароль" as={FormControl} />
+                    <FormGroup
+                      controlId="password"
+                      className="form-floating mb-4"
+                    >
+                      <Field
+                        type="password"
+                        name="password"
+                        autocomplete="current-password"
+                        required
+                        placeholder="Пароль"
+                        as={FormControl}
+                      />
                       <label htmlFor="password">{t('signUpPage.password')}</label>
                       {errorMessage && (
                         <div className="invalid-tooltip">{errorMessage}</div>
                       )}
                     </FormGroup>
-                    <Button type="submit" variant="outline-primary" block disabled={isSubmitting} className="w-100 mb-3 btn btn-outline-primary">
+                    <Button
+                      type="submit"
+                      variant="outline-primary"
+                      block
+                      disabled={isSubmitting}
+                      className="w-100 mb-3 btn btn-outline-primary"
+                    >
                       {t('common.enter')}
                     </Button>
                   </Form>

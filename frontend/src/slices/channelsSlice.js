@@ -33,7 +33,7 @@ const channelsSlice = createSlice({
 
 export const selectors = channelsAdapter.getSelectors(state => state.channels)
 export const selectAllChannels = selectors.selectAll
-export const selectActiveChannelId = (state) => state.channels.active
-export const countChannels = (state) => selectors.selectTotal(state)
+export const selectActiveChannelId = state => state.channels.active
+export const countChannels = state => selectors.selectTotal(state)
 export const { setActiveChannel } = channelsSlice.actions
 export default channelsSlice.reducer

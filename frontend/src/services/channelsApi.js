@@ -3,7 +3,7 @@ import { apiPath } from '../routes.jsx'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: apiPath,
-  prepareHeaders: (headers) => {
+  prepareHeaders: headers => {
     const token = localStorage.getItem('jwttoken')
     if (token) {
       headers.set('Authorization', `Bearer ${token}`)
@@ -17,13 +17,13 @@ export const channelsApi = createApi({
   reducerPath: 'channelsApi',
   baseQuery,
   tagTypes: ['Channels'],
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getChannels: builder.query({
       query: () => 'channels',
       providesTags: ['Channels'],
     }),
     addChannel: builder.mutation({
-      query: (channel) => ({
+      query: channel => ({
         url: 'channels',
         method: 'POST',
         body: channel,
@@ -39,7 +39,7 @@ export const channelsApi = createApi({
       invalidatesTags: ['Channels'],
     }),
     removeChannel: builder.mutation({
-      query: (id) => ({
+      query: id => ({
         url: `channels/${id}`,
         method: 'DELETE',
       }),

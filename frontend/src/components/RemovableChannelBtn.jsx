@@ -6,7 +6,10 @@ const RemovableChannelBtn = ({ isActive, setActiveChannelId, showModal, channel 
   const { t } = useTranslation()
 
   return (
-    <Dropdown as={ButtonGroup} className="d-flex">
+    <Dropdown
+      as={ButtonGroup}
+      className="d-flex"
+    >
       <Button
         variant=""
         className={cn('w-100', 'rounded-0', 'text-start', 'text-truncate', { 'btn-secondary': isActive })}
@@ -29,10 +32,22 @@ const RemovableChannelBtn = ({ isActive, setActiveChannelId, showModal, channel 
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item eventKey="delete" href="#" role="button" tabIndex="0" onClick={() => showModal('removing', channel)}>
+        <Dropdown.Item
+          eventKey="delete"
+          href="#"
+          role="button"
+          tabIndex="0"
+          onClick={() => showModal('removing', channel)}
+        >
           {t('common.remove')}
         </Dropdown.Item>
-        <Dropdown.Item eventKey="rename" href="#" role="button" tabIndex="0" onClick={() => showModal('rename', channel)}>
+        <Dropdown.Item
+          eventKey="rename"
+          href="#"
+          role="button"
+          tabIndex="0"
+          onClick={() => showModal('rename', channel)}
+        >
           {t('common.rename')}
         </Dropdown.Item>
       </Dropdown.Menu>

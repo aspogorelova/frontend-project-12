@@ -11,20 +11,22 @@ import { useTranslation } from 'react-i18next'
 const renderChannelBtn = ({ channel, activeChannelId, setActiveChannelId, showModal }) => {
   const isActive = String(channel.id) === String(activeChannelId)
 
-  return channel.removable === false ? (
-    <StaticChannelBtn 
-      channel={channel} 
-      isActive={isActive} 
-      setActiveChannelId={setActiveChannelId} 
-    />
-  ) : (
-    <RemovableChannelBtn 
-      channel={channel} 
-      isActive={isActive} 
-      setActiveChannelId={setActiveChannelId} 
-      showModal={showModal} 
-    />
-  )
+  return channel.removable === false
+    ? (
+      <StaticChannelBtn
+        channel={channel}
+        isActive={isActive}
+        setActiveChannelId={setActiveChannelId}
+      />
+    )
+    : (
+      <RemovableChannelBtn
+        channel={channel}
+        isActive={isActive}
+        setActiveChannelId={setActiveChannelId}
+        showModal={showModal}
+      />
+    )
 }
 
 const Channels = ({ showModal }) => {
@@ -39,21 +41,35 @@ const Channels = ({ showModal }) => {
     dispatch(setActiveChannel(activeChannelId))
   }, [activeChannelId])
 
-  const setActiveChannelId = (id) => {
+  const setActiveChannelId = id => {
     dispatch(setActiveChannel(id))
   }
 
   return (
-    <Col xs={4} md={2} className="border-end px-0 bg-light flex-column h-100 d-flex">
+    <Col
+      xs={4}
+      md={2}
+      className="border-end px-0 bg-light flex-column h-100 d-flex"
+    >
       <Container className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <strong>{t('channels.channels')}</strong>
-        <Button type="button" className="btn-group-vertical p-0 ms-auto text-primary" variant="" onClick={() => showModal('adding')}>
+        <Button
+          type="button"
+          className="btn-group-vertical p-0 ms-auto text-primary"
+          variant=""
+          onClick={() => showModal('adding')}
+        >
           <PlusSquare size={20} />
           <span className="visually-hidden">+</span>
         </Button>
       </Container>
-      <ListGroup as="ul" id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block" variant="">
-        {data && data.map((channel) => renderChannelBtn({ channel, activeChannelId, setActiveChannelId, showModal }))}
+      <ListGroup
+        as="ul"
+        id="channels-box"
+        className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
+        variant=""
+      >
+        {data && data.map(channel => renderChannelBtn({ channel, activeChannelId, setActiveChannelId, showModal }))}
       </ListGroup>
     </Col>
 

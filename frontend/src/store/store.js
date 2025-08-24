@@ -15,11 +15,11 @@ const store = configureStore({
     [messagesApi.reducerPath]: messagesApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware()
-    .concat(channelsApi.middleware)
-    .concat(messagesApi.middleware)
-    .concat(authApi.middleware),
+      .concat(channelsApi.middleware)
+      .concat(messagesApi.middleware)
+      .concat(authApi.middleware),
 })
 
 export default store

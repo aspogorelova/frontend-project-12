@@ -5,7 +5,11 @@ const ErrorPage = () => {
   const { t } = useTranslation()
 
   return (
-    <Container fluid className="h-100" id="chat">
+    <Container
+      fluid
+      className="h-100"
+      id="chat"
+    >
       <Row className="h-100">
         <Col className="d-flex flex-column justify-content-center align-items-center">
           <Image

@@ -5,7 +5,10 @@ const StaticChannelBtn = ({ channel, isActive, setActiveChannelId }) => {
   const classes = cn('w-100', 'rounded-0', 'text-start', { 'btn-secondary': isActive })
 
   return (
-    <NavItem as="li" className="w-100">
+    <NavItem
+      as="li"
+      className="w-100"
+    >
       <Button
         type="button"
         className={classes}

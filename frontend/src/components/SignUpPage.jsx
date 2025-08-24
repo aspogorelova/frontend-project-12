@@ -25,7 +25,7 @@ const SignupPage = () => {
   const passwordRef = useRef(null)
   const confirmPasswordRef = useRef(null)
 
-  const validate = (values) => {
+  const validate = values => {
     const errors = {}
 
     if (!values.username) {
@@ -64,15 +64,14 @@ const SignupPage = () => {
       }))
 
       navigate('/')
-
     } catch (error) {
       setSubmitting(false)
       const errorMessage = typeof error === 'string' ? error : error?.message || 'Unknown error'
 
       if (
-        error.status === 'FETCH_ERROR' ||
-        errorMessage.includes('Failed to fetch') ||
-        !navigator.onLine
+        error.status === 'FETCH_ERROR'
+        || errorMessage.includes('Failed to fetch')
+        || !navigator.onLine
       ) {
         toast.error(t('error.errorConnect'), {
           position: 'top-right',
@@ -111,9 +110,16 @@ const SignupPage = () => {
   }
 
   return (
-    <Container fluid className="h-100">
+    <Container
+      fluid
+      className="h-100"
+    >
       <Row className="justify-content-center align-content-center h-100">
-        <Col xs={12} md={8} xxl={6}>
+        <Col
+          xs={12}
+          md={8}
+          xxl={6}
+        >
           <Card className="shadow-sm">
             <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <div>
@@ -136,7 +142,10 @@ const SignupPage = () => {
                 onSubmit={handleSubmit}
               >
                 {({ errors, touched, isSubmitting, setFieldTouched }) => (
-                  <BForm as={Form} className="w-50">
+                  <BForm
+                    as={Form}
+                    className="w-50"
+                  >
                     <h1 className="text-center mb-4">{t('signUpPage.register')}</h1>
 
                     <Field name="username">
@@ -152,10 +161,10 @@ const SignupPage = () => {
                             placeholder={t('error.min3max20')}
                             autoComplete="username"
                             isInvalid={touched.username && !!errors.username}
-                            onKeyDown={(e) => handleEnterPress('username', passwordRef, e, setFieldTouched)}
+                            onKeyDown={e => handleEnterPress('username', passwordRef, e, setFieldTouched)}
                           />
                           <ErrorMessage name="username">
-                            {(err) => (
+                            {err => (
                               <div className="invalid-tooltip">{err}</div>
                             )}
                           </ErrorMessage>
@@ -176,10 +185,10 @@ const SignupPage = () => {
                             ref={passwordRef}
                             placeholder={t('error.min6Symbols')}
                             isInvalid={touched.password && !!errors.password}
-                            onKeyDown={(e) => handleEnterPress('password', confirmPasswordRef, e, setFieldTouched)}
+                            onKeyDown={e => handleEnterPress('password', confirmPasswordRef, e, setFieldTouched)}
                           />
                           <ErrorMessage name="password">
-                            {(err) => (
+                            {err => (
                               <div className="invalid-tooltip">{err}</div>
                             )}
                           </ErrorMessage>
@@ -201,7 +210,7 @@ const SignupPage = () => {
                             placeholder={t('error.passwordsShoudBeEqual')}
                             autoComplete="new-password"
                             isInvalid={touched.confirmPassword && !!errors.confirmPassword}
-                            onKeyDown={(e) => {
+                            onKeyDown={e => {
                               if (e.key === 'Enter') {
                                 setFieldTouched('confirmPassword', true, true)
                               }
