@@ -20,9 +20,10 @@ const AddChannelModal = ({ onHide }) => {
     try {
       leoProfanity.loadDictionary('ru')
       leoProfanity.add(enProfanityWords)
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Failed to load Russian dictionary for profanity filter:', error)
-      }
+    }
   }, [])
 
   const checkUniqueName = (value) => {
@@ -65,11 +66,13 @@ const AddChannelModal = ({ onHide }) => {
       dispatch(setActiveChannel(id))
       resetForm()
       onHide()
-    } catch (error) {
+    }
+    catch (error) {
       console.log(t('error.errorCreateChannel'), error)
-      } finally {
+    }
+    finally {
       setSubmitting(false)
-        }
+    }
   }
 
   return (
@@ -125,12 +128,16 @@ const AddChannelModal = ({ onHide }) => {
                   variant="secondary btn me-2"
                   onClick={onHide}
                   disabled={isSubmitting}
-                >{t('common.cancel')}</Button>
+                >
+                  {t('common.cancel')}
+                </Button>
                 <Button
                   type="submit"
                   variant="primary btn"
                   disabled={isSubmitting}
-                >{t('common.send')}</Button>
+                >
+                  {t('common.send')}
+                </Button>
               </div>
             </Form>
           )}
