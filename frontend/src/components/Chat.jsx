@@ -111,9 +111,10 @@ const Chat = () => {
                       key={message.id}
                       className="text-break mb-2"
                     >
-                    <strong>
-                      {message.username}:
-                    </strong>
+                      <strong>
+                        {message.username}
+                        :
+                      </strong>
                       {message.body}
                     </div>
                   ))

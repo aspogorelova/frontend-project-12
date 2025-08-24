@@ -19,7 +19,12 @@ const ErrorPage = () => {
             className="h-25"
           />
           <h1 className="h4 text-muted">{t('errorPage.pageNotFound')}</h1>
-          <p className="text-muted">{t('errorPage.goTo')}<a href="/">{t('errorPage.mainPage')}</a></p>
+          <p className="text-muted">
+            {t('errorPage.goTo')}
+            <a href="/">
+              {t('errorPage.mainPage')}
+            </a>
+          </p>
         </Col>
       </Row>
       <div className="Toastify"></div>

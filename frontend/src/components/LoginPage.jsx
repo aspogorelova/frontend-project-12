@@ -30,7 +30,7 @@ const LoginPage = () => {
     inputRef.current.focus()
   }, [])
 
-  const handleSubmit = async values => {
+  const handleSubmit = async (values) => {
     try {
       const response = await login(values).unwrap()
       const token = response.token
@@ -43,11 +43,13 @@ const LoginPage = () => {
       }))
 
       navigator(previousePath)
-    } catch (error) {
+    }
+    catch (error) {
       console.log('ERROR  ', error)
       if (error.status === 401) {
         dispatch(setAuthFailed(t('error.failedNameOrPassword')))
-      } else if (typeof error.status === 'number' && error.status >= 500) {
+      }
+      else if (typeof error.status === 'number' && error.status >= 500) {
         toast.error(t('error.errorServer'), {
           position: 'top-right',
           autoClose: 5000,
@@ -57,7 +59,8 @@ const LoginPage = () => {
           draggable: true,
           theme: 'light',
         })
-      } else if (
+      } 
+      else if (
         error.status === 'FETCH_ERROR'
         || error.message?.includes('Failed to fetch')
         || !navigator.onLine
@@ -71,7 +74,8 @@ const LoginPage = () => {
           draggable: true,
           theme: 'light',
         })
-      } else {
+      }
+      else {
         dispatch(setAuthFailed(t('error.UnknownError')))
       }
     };
