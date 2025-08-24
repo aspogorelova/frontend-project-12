@@ -1,29 +1,29 @@
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
-import { messagesApi } from "../services/messagesApi.js";
+import { createSlice, createEntityAdapter } from '@reduxjs/toolkit'
+import { messagesApi } from '../services/messagesApi.js'
 
-const messagesAdapter = createEntityAdapter();
-const initialState = messagesAdapter.getInitialState();
+const messagesAdapter = createEntityAdapter()
+const initialState = messagesAdapter.getInitialState()
 
 const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
     addMessageFromSocket: (state, action) => {
-      messagesAdapter.upsertOne(state, action.payload);
+      messagesAdapter.upsertOne(state, action.payload)
     },
   },
   extraReducers(builder) {
     builder.addMatcher(
       messagesApi.endpoints.getMessages.matchFulfilled,
       (state,action) => {
-        messagesAdapter.upsertMany(state, action.payload);
-      }
+        messagesAdapter.upsertMany(state, action.payload)
+      },
     )
-  }
+  },
 })
 
-export const { addMessageFromSocket } = messagesSlice.actions;
-export const { selectAll } = messagesAdapter.getSelectors((state) => state.messages);
-export const countMessages = (state) => selectors.selectTotal(state);
-export const { actions } = messagesSlice;
-export default messagesSlice.reducer;
+export const { addMessageFromSocket } = messagesSlice.actions
+export const { selectAll } = messagesAdapter.getSelectors((state) => state.messages)
+// export const countMessages = (state) => selectors.selectTotal(state)
+export const { actions } = messagesSlice
+export default messagesSlice.reducer

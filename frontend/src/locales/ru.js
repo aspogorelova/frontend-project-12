@@ -64,6 +64,6 @@ export default {
       confirmPassword: 'Подтвердите пароль',
       nameUser: 'Имя пользователя',
       registrate: 'Зарегистрироваться',
-    }
-  }
+    },
+  },
 }

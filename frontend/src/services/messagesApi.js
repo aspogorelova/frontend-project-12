@@ -1,16 +1,16 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { apiPath } from "../routes.jsx";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { apiPath } from '../routes.jsx'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: apiPath,
   prepareHeaders: (headers) => {
-    const token = localStorage.getItem('jwttoken');
+    const token = localStorage.getItem('jwttoken')
     if (token) {
-      headers.set('Authorization', `Bearer ${token}`);
+      headers.set('Authorization', `Bearer ${token}`)
     }
 
-    return headers;
-  }
+    return headers
+  },
 })
 
 export const messagesApi = createApi({
@@ -25,9 +25,9 @@ export const messagesApi = createApi({
         url: '/messages',
         method: 'POST',
         body: message,
-      })
-    })
+      }),
+    }),
   }),  
-});
+})
 
-export const { useGetMessagesQuery, useAddMessageMutation } = messagesApi;
+export const { useGetMessagesQuery, useAddMessageMutation } = messagesApi

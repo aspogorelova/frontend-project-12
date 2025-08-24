@@ -1,32 +1,32 @@
-import { ErrorMessage, Formik, Field } from "formik";
-import * as Yup from 'yup';
-import { setActiveChannel } from "../slices/channelsSlice";
-import { useDispatch } from "react-redux";
-import { useGetChannelsQuery, useAddChannelMutation } from "../services/channelsApi";
-import { Modal, Form, Button, CloseButton } from "react-bootstrap";
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
-import leoProfanity from 'leo-profanity';
-import enProfanityWords from '../utils/enWords.js';
-import { useEffect } from 'react';
+import { ErrorMessage, Formik, Field } from 'formik'
+import * as Yup from 'yup'
+import { setActiveChannel } from '../slices/channelsSlice'
+import { useDispatch } from 'react-redux'
+import { useGetChannelsQuery, useAddChannelMutation } from '../services/channelsApi'
+import { Modal, Form, Button, CloseButton } from 'react-bootstrap'
+import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
+import leoProfanity from 'leo-profanity'
+import enProfanityWords from '../utils/enWords.js'
+import { useEffect } from 'react'
 
 const AddChannelModal = ({ onHide }) => {
-  const { t } = useTranslation();
-  const [addChannel] = useAddChannelMutation();
-  const { data: channelsBeforeAdd } = useGetChannelsQuery();
-  const dispatch = useDispatch();
+  const { t } = useTranslation()
+  const [addChannel] = useAddChannelMutation()
+  const { data: channelsBeforeAdd } = useGetChannelsQuery()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     try {
-      leoProfanity.loadDictionary('ru');
-      leoProfanity.add(enProfanityWords);
+      leoProfanity.loadDictionary('ru')
+      leoProfanity.add(enProfanityWords)
     } catch (error) {
-      console.error('Failed to load Russian dictionary for profanity filter:', error);
+      console.error('Failed to load Russian dictionary for profanity filter:', error)
     }
-  }, []);
+  }, [])
 
   const checkUniqueName = (value) => {
-    return !channelsBeforeAdd?.some(channel => channel.name === value);
+    return !channelsBeforeAdd?.some(channel => channel.name === value)
   }
 
   const validationNewChannelSchema = Yup.object().shape({
@@ -35,17 +35,17 @@ const AddChannelModal = ({ onHide }) => {
       .min(3, t('error.min3max20'))
       .max(20, t('error.min3max20'))
       .test('unique', t('error.unique'), checkUniqueName),
-  });
+  })
 
   const handleSubmit = async (channel, { setSubmitting, resetForm }) => {
-    const censoredName = leoProfanity.clean(channel.name);
+    const censoredName = leoProfanity.clean(channel.name)
     const newChannel = {
       name: censoredName,
       removable: true,
     }
 
     try {
-      const { id } = await addChannel(newChannel).unwrap();
+      const { id } = await addChannel(newChannel).unwrap()
 
       toast.success(t('channels.channelCreated'), {
         icon: (
@@ -55,15 +55,15 @@ const AddChannelModal = ({ onHide }) => {
         ),
         className: 'Toastify__toast--success',
         progressClassName: 'Toastify__progress-bar--success',
-      });
+      })
 
-      dispatch(setActiveChannel(id));
-      resetForm();
-      onHide();
+      dispatch(setActiveChannel(id))
+      resetForm()
+      onHide()
     } catch (error) {
-      console.log(t('error.errorCreateChannel'), error);
+      console.log(t('error.errorCreateChannel'), error)
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
   }
 
@@ -71,7 +71,7 @@ const AddChannelModal = ({ onHide }) => {
     <Modal show centered onHide={onHide}>
       <Modal.Header>
         <Modal.Title>{t('channels.addChannel')}</Modal.Title>
-        <CloseButton aria-label="Close" className='btn' data-bs-dismiss='modal' onClick={onHide} />
+        <CloseButton aria-label="Close" className="btn" data-bs-dismiss="modal" onClick={onHide} />
       </Modal.Header>
       <Modal.Body>
         <Formik
@@ -83,12 +83,12 @@ const AddChannelModal = ({ onHide }) => {
         >
           {({
             handleSubmit,
-            isSubmitting
+            isSubmitting,
           }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="name">
                 <Form.Label className="visually-hidden" htmlFor="name">{t('channels.nameChannel')}</Form.Label>
-                <Field id='name' name="name" className="mb-2" as={Form.Control} autoFocus />
+                <Field id="name" name="name" className="mb-2" as={Form.Control} autoFocus />
                 <ErrorMessage component="div" className="invalid-feedback d-block" name="name" />
               </Form.Group>
               <div className="d-flex justify-content-end">
@@ -103,4 +103,4 @@ const AddChannelModal = ({ onHide }) => {
   )
 }
 
-export default AddChannelModal;
+export default AddChannelModal

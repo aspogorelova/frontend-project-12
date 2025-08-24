@@ -1,8 +1,8 @@
-import { Container, Row, Col, Image } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import { Container, Row, Col, Image } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 
 const ErrorPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <Container fluid className="h-100" id="chat">
@@ -20,7 +20,7 @@ const ErrorPage = () => {
       </Row>
       <div className="Toastify"></div>
     </Container>
-  );
-};
+  )
+}
 
-export default ErrorPage;
+export default ErrorPage

@@ -8,4 +8,7 @@ build:
 	npm run build
 
 lint:
-	npx eslint --ext js,jsx --no-eslintrc --config .eslint.config.js .
+	npx eslint --ext js,jsx -c .eslint.config.js .
+
+lint-fix:
+	npx eslint --ext js,jsx -c .eslint.config.js . --fix

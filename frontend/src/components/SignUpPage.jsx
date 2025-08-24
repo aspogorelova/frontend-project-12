@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import {
   Container,
   Row,
@@ -6,47 +6,47 @@ import {
   Card,
   Button,
   FloatingLabel,
-  Form as BForm
-} from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { useSignUpMutation } from '../services/authApi.js';
-import { useNavigate } from 'react-router-dom';
-import { setAuthData } from '../slices/authSlice.js';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { useRef } from 'react';
+  Form as BForm,
+} from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { useSignUpMutation } from '../services/authApi.js'
+import { useNavigate } from 'react-router-dom'
+import { setAuthData } from '../slices/authSlice.js'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import { useRef } from 'react'
 
 const SignupPage = () => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const [signup] = useSignUpMutation();
-  const navigate = useNavigate();
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const [signup] = useSignUpMutation()
+  const navigate = useNavigate()
 
-  const passwordRef = useRef(null);
-  const confirmPasswordRef = useRef(null);
+  const passwordRef = useRef(null)
+  const confirmPasswordRef = useRef(null)
 
   const validate = (values) => {
-    const errors = {};
+    const errors = {}
 
     if (!values.username) {
-      errors.username = t('error.requiredInput');
+      errors.username = t('error.requiredInput')
     } else if (values.username.length < 3 || values.username.length > 20) {
-      errors.username = t('error.min3max20');
+      errors.username = t('error.min3max20')
     }
 
     if (!values.password) {
-      errors.password = t('error.requiredInput');
+      errors.password = t('error.requiredInput')
     } else if (values.password.length < 6) {
-      errors.password = t('error.min6Symbols');
+      errors.password = t('error.min6Symbols')
     }
 
     if (values.confirmPassword !== values.password) {
-      errors.confirmPassword = t('error.passwordsShoudBeEqual');
+      errors.confirmPassword = t('error.passwordsShoudBeEqual')
     } else if (!values.confirmPassword) {
-      errors.confirmPassword = t('error.passwordsShoudBeEqual');
+      errors.confirmPassword = t('error.passwordsShoudBeEqual')
     }
 
-    return errors;
+    return errors
   }
 
   const handleSubmit = async (values, { setErrors, setSubmitting }) => {
@@ -56,18 +56,18 @@ const SignupPage = () => {
         password: values.password,
       }
 
-      const response = await signup(newUser).unwrap();
+      const response = await signup(newUser).unwrap()
 
       dispatch(setAuthData({
         username: values.username,
-        token: response.token
-      }));
+        token: response.token,
+      }))
 
-      navigate('/');
+      navigate('/')
 
     } catch (error) {
-      setSubmitting(false);
-      const errorMessage = typeof error === 'string' ? error : error?.message || 'Unknown error';
+      setSubmitting(false)
+      const errorMessage = typeof error === 'string' ? error : error?.message || 'Unknown error'
 
       if (
         error.status === 'FETCH_ERROR' ||
@@ -75,37 +75,37 @@ const SignupPage = () => {
         !navigator.onLine
       ) {
         toast.error(t('error.errorConnect'), {
-          position: "top-right",
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          theme: "light",
-        });
+          theme: 'light',
+        })
       } else if (error.status === 409) {
-        setErrors({ username: '', password: '', confirmPassword: t('error.suchUserAlreadyExists') });
+        setErrors({ username: '', password: '', confirmPassword: t('error.suchUserAlreadyExists') })
       } else {
         toast.error(t('error.errorRegistration'), {
-          position: "top-right",
+          position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          theme: "light",
-        });
+          theme: 'light',
+        })
       }
     }
-  };
+  }
 
   const handleEnterPress = (fieldName, nextFieldRef, event, setFieldTouched) => {
     if (event.key === 'Enter') {
-      event.preventDefault();
-      setFieldTouched(fieldName, true, true);
+      event.preventDefault()
+      setFieldTouched(fieldName, true, true)
 
       if (nextFieldRef) {
-        nextFieldRef.current.focus();
+        nextFieldRef.current.focus()
       }
     }
   }
@@ -128,7 +128,7 @@ const SignupPage = () => {
                 initialValues={{
                   username: '',
                   password: '',
-                  confirmPassword: ''
+                  confirmPassword: '',
                 }}
                 validate={validate}
                 validateOnChange={false}
@@ -203,7 +203,7 @@ const SignupPage = () => {
                             isInvalid={touched.confirmPassword && !!errors.confirmPassword}
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') {
-                                setFieldTouched('confirmPassword', true, true);
+                                setFieldTouched('confirmPassword', true, true)
                               }
                             }}
                           />
@@ -235,6 +235,6 @@ const SignupPage = () => {
       </Row>
     </Container>
   )
-};
+}
 
-export default SignupPage;
+export default SignupPage

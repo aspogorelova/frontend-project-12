@@ -1,9 +1,9 @@
-import cn from "classnames";
-import { Button, Dropdown, ButtonGroup } from "react-bootstrap";
-import { useTranslation } from 'react-i18next';
+import cn from 'classnames'
+import { Button, Dropdown, ButtonGroup } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 
 const RemovableChannelBtn = ({ isActive, setActiveChannelId, showModal, channel }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <Dropdown as={ButtonGroup} className="d-flex">
@@ -22,7 +22,7 @@ const RemovableChannelBtn = ({ isActive, setActiveChannelId, showModal, channel 
         className={cn(
           'flex-grow-0',
           'dropdown-toggle-split',
-          { 'btn-secondary': isActive }
+          { 'btn-secondary': isActive },
         )}
       >
         <span className="visually-hidden">{t('channels.manageChannel')}</span>
@@ -40,4 +40,4 @@ const RemovableChannelBtn = ({ isActive, setActiveChannelId, showModal, channel 
   )
 }
 
-export default RemovableChannelBtn;
+export default RemovableChannelBtn

@@ -1,17 +1,17 @@
-import { ErrorMessage, Formik, Field } from "formik";
-import * as Yup from 'yup';
-import { useGetChannelsQuery, useUpdateChannelMutation } from "../services/channelsApi";
-import { Modal, Form, Button, CloseButton } from "react-bootstrap";
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
+import { ErrorMessage, Formik, Field } from 'formik'
+import * as Yup from 'yup'
+import { useGetChannelsQuery, useUpdateChannelMutation } from '../services/channelsApi'
+import { Modal, Form, Button, CloseButton } from 'react-bootstrap'
+import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 const RenameChannelModal = ({ modalInfo, onHide }) => {
-  const {t} = useTranslation();
-  const [updateChannel] = useUpdateChannelMutation();
-  const { data: channelsBeforeAdd } = useGetChannelsQuery();
+  const {t} = useTranslation()
+  const [updateChannel] = useUpdateChannelMutation()
+  const { data: channelsBeforeAdd } = useGetChannelsQuery()
 
   const checkUniqueName = (value) => {
-    return !channelsBeforeAdd?.some(channel => channel.name === value);
+    return !channelsBeforeAdd?.some(channel => channel.name === value)
   }
 
   const validationNewNameSchema = Yup.object().shape({
@@ -20,7 +20,7 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
       .min(3, t('error.min3max20'))
       .max(20, t('error.min3max20'))
       .test('unique', t('error.unique'), checkUniqueName),
-  });
+  })
 
   const handleSubmit = async (channel, { setSubmitting, resetForm }) => {
     const newName = {
@@ -28,7 +28,7 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
     }
 
     try {
-      await updateChannel({ id: modalInfo.item.id, body: newName }).unwrap();
+      await updateChannel({ id: modalInfo.item.id, body: newName }).unwrap()
 
       toast.success(t('channels.renamedChannel'), {
         icon: (
@@ -38,14 +38,14 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
         ),
         className: 'Toastify__toast--success',
         progressClassName: 'Toastify__progress-bar--success',
-      });
+      })
 
-      resetForm();
-      onHide();
+      resetForm()
+      onHide()
     } catch (error) {
-      console.log(t('error.errorSendNewChannel'), error);
+      console.log(t('error.errorSendNewChannel'), error)
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
   }
 
@@ -53,7 +53,7 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
     <Modal show centered onHide={onHide}>
       <Modal.Header>
         <Modal.Title>{t('channels.renameChannel')}</Modal.Title>
-        <CloseButton aria-label="Close" className='btn' data-bs-dismiss='modal' onClick={onHide} />
+        <CloseButton aria-label="Close" className="btn" data-bs-dismiss="modal" onClick={onHide} />
       </Modal.Header>
       <Modal.Body>
         <Formik
@@ -65,12 +65,12 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
         >
           {({
             handleSubmit,
-            isSubmitting
+            isSubmitting,
           }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="name">
                 <Form.Label className="visually-hidden" htmlFor="name">{t('channels.nameChannel')}</Form.Label>
-                <Field id='name' name="name" className="mb-2" as={Form.Control} autoFocus />
+                <Field id="name" name="name" className="mb-2" as={Form.Control} autoFocus />
                 <ErrorMessage component="div" className="invalid-feedback d-block" name="name" />
               </Form.Group>
               <div className="d-flex justify-content-end">
@@ -85,4 +85,4 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
   )
 }
 
-export default RenameChannelModal;
+export default RenameChannelModal

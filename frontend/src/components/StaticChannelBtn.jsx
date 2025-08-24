@@ -1,8 +1,8 @@
-import cn from "classnames";
-import { NavItem, Button } from "react-bootstrap";
+import cn from 'classnames'
+import { NavItem, Button } from 'react-bootstrap'
 
 const StaticChannelBtn = ({ channel, isActive, setActiveChannelId }) => {
-  const classes = cn('w-100', 'rounded-0', 'text-start', { 'btn-secondary': isActive });
+  const classes = cn('w-100', 'rounded-0', 'text-start', { 'btn-secondary': isActive })
 
   return (
     <NavItem as="li" className="w-100">
@@ -19,4 +19,4 @@ const StaticChannelBtn = ({ channel, isActive, setActiveChannelId }) => {
   )
 }
 
-export default StaticChannelBtn;
+export default StaticChannelBtn

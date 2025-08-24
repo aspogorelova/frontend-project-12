@@ -1,16 +1,16 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { apiPath } from "../routes.jsx";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { apiPath } from '../routes.jsx'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: apiPath,
   prepareHeaders: (headers) => {
-    const token = localStorage.getItem('jwttoken');
+    const token = localStorage.getItem('jwttoken')
     if (token) {
-      headers.set('Authorization', `Bearer ${token}`);
+      headers.set('Authorization', `Bearer ${token}`)
     }
 
-    return headers;
-  }
+    return headers
+  },
 })
 
 export const channelsApi = createApi({
@@ -34,7 +34,7 @@ export const channelsApi = createApi({
       query: ({ id, body }) => ({
         url: `channels/${id}`,
         method: 'PATCH',
-        body
+        body,
       }),
       invalidatesTags: ['Channels'],
     }),
@@ -44,13 +44,13 @@ export const channelsApi = createApi({
         method: 'DELETE',
       }),
       invalidatesTags: ['Channels'],
-    })
+    }),
   }),
-});
+})
 
 export const {
   useGetChannelsQuery,
   useAddChannelMutation,
   useRemoveChannelMutation,
   useUpdateChannelMutation,
-} = channelsApi;
+} = channelsApi
