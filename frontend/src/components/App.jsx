@@ -47,7 +47,7 @@ const PrivateRoute = ({ children }) => {
           to="login"
           state={{ from: location }}
         />
-    )
+      )
 }
 
 const renderModal = ({ modalInfo, hideModal }) => {

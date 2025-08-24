@@ -37,7 +37,8 @@ const Chat = () => {
     try {
       leoProfanity.loadDictionary('ru')
       leoProfanity.add(enProfanityWords)
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Failed to load Russian dictionary for profanity filter:', error)
     }
 
@@ -45,7 +46,7 @@ const Chat = () => {
 
     socket = io.connect(socketURL)
 
-    socket.on('newMessage', payload => {
+    socket.on('newMessage', (payload) => {
       dispatch(addMessageFromSocket(payload))
     })
 
@@ -54,11 +55,11 @@ const Chat = () => {
     }
   }, [])
 
-  const handleChangeInput = e => {
+  const handleChangeInput = (e) => {
     setNewMessage(e.target.value)
   }
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     const messageText = newMessage
@@ -75,7 +76,8 @@ const Chat = () => {
     try {
       await addMessage(message).unwrap()
       setNewMessage('')
-    } catch (err) {
+    }
+    catch (err) {
       console.log(err)
     }
   }
@@ -100,19 +102,22 @@ const Chat = () => {
         >
           {isLoadingMessages
             ? (
-              <span>{t('chat.loadingMessages')}</span>
-            )
+                <span>{t('chat.loadingMessages')}</span>
+              )
             : (
-              filteredMessages.length > 0 && filteredMessages
-                .map(message => (
-                  <div
-                    key={message.id}
-                    className="text-break mb-2"
-                  >
-                    <strong>{message.username}:</strong> {message.body}
-                  </div>
-                ))
-            )}
+                filteredMessages.length > 0 && filteredMessages
+                  .map(message => (
+                    <div
+                      key={message.id}
+                      className="text-break mb-2"
+                    >
+                    <strong>
+                      {message.username}:
+                    </strong>
+                      {message.body}
+                    </div>
+                  ))
+              )}
         </div>
 
         <div className=" mt-auto px-5 py-3">
@@ -124,26 +129,26 @@ const Chat = () => {
             <InputGroup className="has-validation">
               {isLoadingMessage
                 ? (
-                  <Form.Control
-                    onChange={handleChangeInput}
-                    aria-label={t('chat.newMessage')}
-                    placeholder={t('chat.loadingPostMessage')}
-                    name="body"
-                    className="border-0 p-0 ps-2"
-                    value=""
-                  />
-                )
+                    <Form.Control
+                      onChange={handleChangeInput}
+                      aria-label={t('chat.newMessage')}
+                      placeholder={t('chat.loadingPostMessage')}
+                      name="body"
+                      className="border-0 p-0 ps-2"
+                      value=""
+                    />
+                  )
                 : (
-                  <Form.Control
-                    onChange={handleChangeInput}
-                    aria-label={t('chat.newMessage')}
-                    placeholder={t('chat.enterMessage')}
-                    name="body"
-                    className="border-0 p-0 ps-2"
-                    value={newMessage}
-                    ref={inputRef}
-                  />
-                )}
+                    <Form.Control
+                      onChange={handleChangeInput}
+                      aria-label={t('chat.newMessage')}
+                      placeholder={t('chat.enterMessage')}
+                      name="body"
+                      className="border-0 p-0 ps-2"
+                      value={newMessage}
+                      ref={inputRef}
+                    />
+                  )}
 
               <Button
                 variant=""
@@ -169,8 +174,8 @@ const Chat = () => {
             </InputGroup>
           </Form>
         </div>
-      </div >
-    </Col >
+      </div>
+    </Col>
   )
 }
 
