@@ -43,11 +43,11 @@ const PrivateRoute = ({ children }) => {
   return token && currentUser
     ? children
     : (
-      <Navigate
-        to="login"
-        state={{ from: location }}
-      />
-      )
+        <Navigate
+          to="login"
+          state={{ from: location }}
+        />
+    )
 }
 
 const renderModal = ({ modalInfo, hideModal }) => {

@@ -11,7 +11,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setAuthLoading: state => {
+    setAuthLoading: (state) => {
       state.status = 'loading'
     },
     setAuthData: (state, { payload }) => {
@@ -24,7 +24,7 @@ const authSlice = createSlice({
     setAuthFailed: (state, { payload }) => {
       state.error = payload
     },
-    logOut: state => {
+    logOut: (state) => {
       state.user = null
       state.token = null
       state.error = null

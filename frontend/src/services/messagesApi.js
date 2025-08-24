@@ -3,7 +3,7 @@ import { apiPath } from '../routes.jsx'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: apiPath,
-  prepareHeaders: headers => {
+  prepareHeaders: (headers) => {
     const token = localStorage.getItem('jwttoken')
     if (token) {
       headers.set('Authorization', `Bearer ${token}`)

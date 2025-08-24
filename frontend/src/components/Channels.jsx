@@ -13,20 +13,20 @@ const renderChannelBtn = ({ channel, activeChannelId, setActiveChannelId, showMo
 
   return channel.removable === false
     ? (
-      <StaticChannelBtn
-        channel={channel}
-        isActive={isActive}
-        setActiveChannelId={setActiveChannelId}
-      />
-    )
+        <StaticChannelBtn
+          channel={channel}
+          isActive={isActive}
+          setActiveChannelId={setActiveChannelId}
+        />
+      )
     : (
-      <RemovableChannelBtn
-        channel={channel}
-        isActive={isActive}
-        setActiveChannelId={setActiveChannelId}
-        showModal={showModal}
-      />
-    )
+        <RemovableChannelBtn
+          channel={channel}
+          isActive={isActive}
+          setActiveChannelId={setActiveChannelId}
+          showModal={showModal}
+        />
+      )
 }
 
 const Channels = ({ showModal }) => {
@@ -41,7 +41,7 @@ const Channels = ({ showModal }) => {
     dispatch(setActiveChannel(activeChannelId))
   }, [activeChannelId])
 
-  const setActiveChannelId = id => {
+  const setActiveChannelId = (id) => {
     dispatch(setActiveChannel(id))
   }
 
