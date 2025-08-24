@@ -2,10 +2,10 @@ import Rollbar from 'rollbar'
 
 const getNodeEnv = () => {
   try {
-    return process.env.NODE_ENV || 'development'
+    return import.meta.env.MODE || 'development'
   }
   catch (error) {
-    console.log(error);
+    console.log(error)
     return 'development'
   }
 }
