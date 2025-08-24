@@ -25,24 +25,27 @@ const SignupPage = () => {
   const passwordRef = useRef(null)
   const confirmPasswordRef = useRef(null)
 
-  const validate = values => {
+  const validate = (values) => {
     const errors = {}
 
     if (!values.username) {
       errors.username = t('error.requiredInput')
-    } else if (values.username.length < 3 || values.username.length > 20) {
+    }
+    else if (values.username.length < 3 || values.username.length > 20) {
       errors.username = t('error.min3max20')
     }
 
     if (!values.password) {
       errors.password = t('error.requiredInput')
-    } else if (values.password.length < 6) {
+    }
+    else if (values.password.length < 6) {
       errors.password = t('error.min6Symbols')
     }
 
     if (values.confirmPassword !== values.password) {
       errors.confirmPassword = t('error.passwordsShoudBeEqual')
-    } else if (!values.confirmPassword) {
+    }
+    else if (!values.confirmPassword) {
       errors.confirmPassword = t('error.passwordsShoudBeEqual')
     }
 
@@ -64,7 +67,8 @@ const SignupPage = () => {
       }))
 
       navigate('/')
-    } catch (error) {
+    }
+    catch (error) {
       setSubmitting(false)
       const errorMessage = typeof error === 'string' ? error : error?.message || 'Unknown error'
 
@@ -82,9 +86,11 @@ const SignupPage = () => {
           draggable: true,
           theme: 'light',
         })
-      } else if (error.status === 409) {
+      }
+      else if (error.status === 409) {
         setErrors({ username: '', password: '', confirmPassword: t('error.suchUserAlreadyExists') })
-      } else {
+      }
+      else {
         toast.error(t('error.errorRegistration'), {
           position: 'top-right',
           autoClose: 5000,
@@ -210,7 +216,7 @@ const SignupPage = () => {
                             placeholder={t('error.passwordsShoudBeEqual')}
                             autoComplete="new-password"
                             isInvalid={touched.confirmPassword && !!errors.confirmPassword}
-                            onKeyDown={e => {
+                            onKeyDown={(e) => {
                               if (e.key === 'Enter') {
                                 setFieldTouched('confirmPassword', true, true)
                               }

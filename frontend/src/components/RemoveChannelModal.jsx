@@ -36,7 +36,8 @@ const RemoveChannelModal = ({ modalInfo, onHide }) => {
       }
 
       onHide()
-    } catch (error) {
+    }
+    catch (error) {
       console.log(error)
       toast.error(t('error.errorRemovingChannel'))
     }
@@ -64,12 +65,16 @@ const RemoveChannelModal = ({ modalInfo, onHide }) => {
             type="button"
             variant="secondary btn me-2"
             onClick={onHide}
-          >{t('common.cancel')}</Button>
+          >
+            {t('common.cancel')}
+          </Button>
           <Button
             type="button"
             variant="danger btn"
             onClick={handleRemove}
-          >{t('common.remove')}</Button>
+          >
+            {t('common.remove')}
+          </Button>
         </div>
       </Modal.Body>
     </Modal>

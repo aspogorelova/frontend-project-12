@@ -10,7 +10,7 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
   const [updateChannel] = useUpdateChannelMutation()
   const { data: channelsBeforeAdd } = useGetChannelsQuery()
 
-  const checkUniqueName = value => {
+  const checkUniqueName = (value) => {
     return !channelsBeforeAdd?.some(channel => channel.name === value)
   }
 
@@ -47,9 +47,11 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
 
       resetForm()
       onHide()
-    } catch (error) {
+    }
+    catch (error) {
       console.log(t('error.errorSendNewChannel'), error)
-    } finally {
+    }
+    finally {
       setSubmitting(false)
     }
   }
@@ -86,7 +88,9 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
                 <Form.Label
                   className="visually-hidden"
                   htmlFor="name"
-                >{t('channels.nameChannel')}</Form.Label>
+                >
+                  {t('channels.nameChannel')}
+                </Form.Label>
                 <Field
                   id="name"
                   name="name"
@@ -105,12 +109,16 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
                   variant="secondary btn me-2"
                   onClick={onHide}
                   disabled={isSubmitting}
-                >{t('common.cancel')}</Button>
+                >
+                  {t('common.cancel')}
+                </Button>
                 <Button
                   type="submit"
                   variant="primary btn"
                   disabled={isSubmitting}
-                >{t('common.send')}</Button>
+                >
+                  {t('common.send')}
+                </Button>
               </div>
             </Form>
           )}

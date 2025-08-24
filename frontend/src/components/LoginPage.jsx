@@ -59,7 +59,7 @@ const LoginPage = () => {
           draggable: true,
           theme: 'light',
         })
-      } 
+      }
       else if (
         error.status === 'FETCH_ERROR'
         || error.message?.includes('Failed to fetch')
