@@ -20,7 +20,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useTranslation } from 'react-i18next'
 
-const handleLogout = dispatch => {
+const handleLogout = (dispatch) => {
   dispatch(logOut())
   dispatch(setActiveChannel(1))
 }
@@ -46,8 +46,8 @@ const PrivateRoute = ({ children }) => {
       <Navigate
         to="login"
         state={{ from: location }}
-      ></Navigate>
-    )
+      />
+      )
 }
 
 const renderModal = ({ modalInfo, hideModal }) => {
