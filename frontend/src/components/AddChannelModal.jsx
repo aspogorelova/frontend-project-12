@@ -22,10 +22,10 @@ const AddChannelModal = ({ onHide }) => {
       leoProfanity.add(enProfanityWords)
     } catch (error) {
       console.error('Failed to load Russian dictionary for profanity filter:', error)
-    }
+      }
   }, [])
 
-  const checkUniqueName = value => {
+  const checkUniqueName = (value) => {
     return !channelsBeforeAdd?.some(channel => channel.name === value)
   }
 
@@ -67,9 +67,9 @@ const AddChannelModal = ({ onHide }) => {
       onHide()
     } catch (error) {
       console.log(t('error.errorCreateChannel'), error)
-    } finally {
+      } finally {
       setSubmitting(false)
-    }
+        }
   }
 
   return (
@@ -104,7 +104,9 @@ const AddChannelModal = ({ onHide }) => {
                 <Form.Label
                   className="visually-hidden"
                   htmlFor="name"
-                >{t('channels.nameChannel')}</Form.Label>
+                >
+                  {t('channels.nameChannel')}
+                </Form.Label>
                 <Field
                   id="name"
                   name="name"
