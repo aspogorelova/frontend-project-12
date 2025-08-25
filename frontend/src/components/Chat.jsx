@@ -120,7 +120,7 @@ const Chat = () => {
                     >
                       <strong>
                         {message.username}
-                        : 
+                        :
                       </strong>
                       {' '}
                       {message.body}
