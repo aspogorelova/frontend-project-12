@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useMemo } from 'react'
 import { Col, Form, Button, InputGroup } from 'react-bootstrap'
 import '../styles.css'
 import { useGetMessagesQuery, useAddMessageMutation } from '../services/messagesApi.js'
@@ -23,15 +23,18 @@ const Chat = () => {
   const [addMessage, { isLoading: isLoadingMessage }] = useAddMessageMutation()
   const currentUser = useSelector(selectAuthUser)
   const inputRef = useRef()
+  const messagesEndRef = useRef()
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
   const host = window.location.host
   const socketURL = `${protocol}//${host}`
   let socket
-  let filteredMessages
+  // let filteredMessages
 
   const filterMessages = messages => messages.filter(message => String(message.channelId) === String(idActiveChannel))
   const activeChannel = channels?.find(channel => String(channel.id) === String(idActiveChannel))
   const nameActiveChannel = activeChannel?.name || ''
+
+  const filteredMessages = useMemo(() => filterMessages(allMessages), [allMessages, idActiveChannel])
 
   useEffect(() => {
     try {
@@ -82,7 +85,11 @@ const Chat = () => {
     }
   }
 
-  filteredMessages = filterMessages(allMessages)
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [filteredMessages])
+
+  // filteredMessages = filterMessages(allMessages)
   const countMessages = filteredMessages.length
 
   return (
@@ -113,12 +120,14 @@ const Chat = () => {
                     >
                       <strong>
                         {message.username}
-                        :
+                        : 
                       </strong>
+                      {' '}
                       {message.body}
                     </div>
                   ))
               )}
+          <div ref={messagesEndRef} />
         </div>
 
         <div className=" mt-auto px-5 py-3">

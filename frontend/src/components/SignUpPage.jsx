@@ -165,7 +165,6 @@ const SignupPage = () => {
                             {...field}
                             type="text"
                             placeholder={t('error.min3max20')}
-                            autoComplete="username"
                             isInvalid={touched.username && !!errors.username}
                             onKeyDown={e => handleEnterPress('username', passwordRef, e, setFieldTouched)}
                           />
@@ -214,7 +213,6 @@ const SignupPage = () => {
                             type="password"
                             ref={confirmPasswordRef}
                             placeholder={t('error.passwordsShoudBeEqual')}
-                            autoComplete="new-password"
                             isInvalid={touched.confirmPassword && !!errors.confirmPassword}
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') {

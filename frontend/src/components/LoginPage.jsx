@@ -123,7 +123,6 @@ const LoginPage = () => {
                         ref={inputRef}
                         type="text"
                         name="username"
-                        autocomplete="username"
                         required
                         placeholder="Ваш ник"
                         as={FormControl}
@@ -137,7 +136,6 @@ const LoginPage = () => {
                       <Field
                         type="password"
                         name="password"
-                        autocomplete="current-password"
                         required
                         placeholder="Пароль"
                         as={FormControl}
