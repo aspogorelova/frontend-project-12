@@ -30,7 +30,7 @@ const LoginPage = () => {
     inputRef.current.focus()
   }, [])
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await login(values).unwrap()
       const token = response.token
@@ -45,8 +45,9 @@ const LoginPage = () => {
       navigator(previousePath)
     }
     catch (error) {
-      console.log('ERROR  ', error)
+      console.log('error  ', error)
       if (error.status === 401) {
+        console.log('error 401')
         dispatch(setAuthFailed(t('error.failedNameOrPassword')))
       }
       else if (typeof error.status === 'number' && error.status >= 500) {
@@ -78,7 +79,10 @@ const LoginPage = () => {
       else {
         dispatch(setAuthFailed(t('error.UnknownError')))
       }
-    };
+  }
+  finally {
+    setSubmitting(false);
+  };
   }
 
   return (
