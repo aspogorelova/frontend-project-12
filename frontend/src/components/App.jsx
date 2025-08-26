@@ -72,6 +72,13 @@ function App() {
     dispatch(setActiveChannel(1))
   }, [])
 
+  useEffect(() => {
+  const token = localStorage.getItem('jwttoken')
+  if (!token) {
+    dispatch(logOut())
+  }
+}, [dispatch])
+
   return (
     <div className="d-flex flex-column h-100">
       <Router>

@@ -5,6 +5,7 @@ import messagesReducer from '../slices/messagesSlice.js'
 import { channelsApi } from '../services/channelsApi.js'
 import { messagesApi } from '../services/messagesApi.js'
 import { authApi } from '../services/authApi.js'
+import { unauthenticatedMiddleware } from '../middleware/unauthMiddleware.js'
 
 const store = configureStore({
   reducer: {
@@ -19,7 +20,8 @@ const store = configureStore({
     getDefaultMiddleware()
       .concat(channelsApi.middleware)
       .concat(messagesApi.middleware)
-      .concat(authApi.middleware),
+      .concat(authApi.middleware)
+      .concat(unauthenticatedMiddleware)
 })
 
 export default store
