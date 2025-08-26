@@ -73,11 +73,11 @@ function App() {
   }, [])
 
   useEffect(() => {
-  const token = localStorage.getItem('jwttoken')
-  if (!token) {
-    dispatch(logOut())
-  }
-}, [dispatch])
+    const token = localStorage.getItem('jwttoken')
+    if (!token) {
+      dispatch(logOut())
+    }
+  }, [dispatch])
 
   return (
     <div className="d-flex flex-column h-100">

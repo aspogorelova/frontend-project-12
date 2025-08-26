@@ -79,10 +79,10 @@ const LoginPage = () => {
       else {
         dispatch(setAuthFailed(t('error.UnknownError')))
       }
-  }
-  finally {
-    setSubmitting(false);
-  };
+    }
+    finally {
+      setSubmitting(false)
+    };
   }
 
   return (

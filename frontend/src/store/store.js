@@ -21,7 +21,7 @@ const store = configureStore({
       .concat(channelsApi.middleware)
       .concat(messagesApi.middleware)
       .concat(authApi.middleware)
-      .concat(unauthenticatedMiddleware)
+      .concat(unauthenticatedMiddleware),
 })
 
 export default store
