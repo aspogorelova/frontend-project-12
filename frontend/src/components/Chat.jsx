@@ -12,7 +12,6 @@ import leoProfanity from 'leo-profanity'
 import enProfanityWords from '../utils/enWords.js'
 import { toast } from 'react-toastify'
 
-
 const Chat = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
