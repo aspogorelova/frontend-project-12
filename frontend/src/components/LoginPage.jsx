@@ -6,9 +6,9 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Row, Col, Card, Image, Button, FormControl, FormGroup, Container } from 'react-bootstrap'
 import { useLocation, useNavigate } from 'react-router-dom'
-import '../styles.css'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
+import avatarImage from '../assets/avatarAvtor.jpg';
 
 const LoginPage = () => {
   const { t } = useTranslation()
@@ -104,7 +104,7 @@ const LoginPage = () => {
                 className="d-flex align-items-center justify-content-center"
               >
                 <Image
-                  src="./avatarAvtor.jpg"
+                  src={avatarImage}
                   roundedCircle
                   alt="Войти"
                 />

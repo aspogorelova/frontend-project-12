@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { Col, Form, Button, InputGroup } from 'react-bootstrap'
-import '../styles.css'
 import { useGetMessagesQuery, useAddMessageMutation } from '../services/messagesApi.js'
 import { selectActiveChannelId } from '../slices/channelsSlice.js'
 import { useGetChannelsQuery } from '../services/channelsApi.js'

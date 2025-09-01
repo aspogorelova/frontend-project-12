@@ -15,6 +15,7 @@ import { setAuthData } from '../slices/authSlice.js'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { useRef } from 'react'
+import avatarImage from '../assets/signupImg.jpg';
 
 const SignupPage = () => {
   const { t } = useTranslation()
@@ -130,7 +131,7 @@ const SignupPage = () => {
             <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <div>
                 <img
-                  src="./signupImg.jpg"
+                  src={avatarImage}
                   className="rounded-circle"
                   alt={t('signupPage.register')}
                 />

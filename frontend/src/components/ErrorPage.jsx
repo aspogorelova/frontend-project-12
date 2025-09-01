@@ -1,5 +1,6 @@
 import { Container, Row, Col, Image } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
+import avatarImage from '../assets/notFound.svg';
 
 const ErrorPage = () => {
   const { t } = useTranslation()
@@ -14,7 +15,7 @@ const ErrorPage = () => {
         <Col className="d-flex flex-column justify-content-center align-items-center">
           <Image
             alt="Страница не найдена"
-            src="./notFound.svg"
+            src={avatarImage}
             fluid
             className="h-25"
           />
