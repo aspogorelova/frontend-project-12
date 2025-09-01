@@ -19,7 +19,7 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
       leoProfanity.add(enProfanityWords)
     }
     catch (error) {
-      toast.error(t('error.failedLoadDictionary'))
+      toast.error(error)
     }
   }, [t])
 
@@ -63,7 +63,7 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
       onHide()
     }
     catch (error) {
-      toast.error(t('error.errorSendNewChannel'))
+      toast.error(error)
     }
     finally {
       setSubmitting(false)
