@@ -1,4 +1,4 @@
-import { Container, Row, Col, Image } from 'react-bootstrap'
+import { Container, Image } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import avatarImage from '../assets/notFound.svg'
 

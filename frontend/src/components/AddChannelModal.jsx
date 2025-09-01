@@ -22,7 +22,7 @@ const AddChannelModal = ({ onHide }) => {
       leoProfanity.add(enProfanityWords)
     }
     catch (error) {
-       toast.error(error)
+      toast.error(error)
     }
   }, [])
 
@@ -68,7 +68,7 @@ const AddChannelModal = ({ onHide }) => {
       onHide()
     }
     catch (error) {
-       toast.error(error)
+      toast.error(error)
     }
     finally {
       setSubmitting(false)

@@ -10,6 +10,8 @@ import { selectAuthUser } from '../slices/authSlice.js'
 import { useTranslation } from 'react-i18next'
 import leoProfanity from 'leo-profanity'
 import enProfanityWords from '../utils/enWords.js'
+import { toast } from 'react-toastify'
+
 
 const Chat = () => {
   const { t } = useTranslation()
@@ -27,7 +29,6 @@ const Chat = () => {
   const host = window.location.host
   const socketURL = `${protocol}//${host}`
   let socket
-  // let filteredMessages
 
   const filterMessages = messages => messages.filter(message => String(message.channelId) === String(idActiveChannel))
   const activeChannel = channels?.find(channel => String(channel.id) === String(idActiveChannel))
@@ -41,7 +42,7 @@ const Chat = () => {
       leoProfanity.add(enProfanityWords)
     }
     catch (error) {
-       toast.error(error)
+      toast.error(error)
     }
 
     inputRef.current.focus()
@@ -80,7 +81,7 @@ const Chat = () => {
       setNewMessage('')
     }
     catch (err) {
-       toast.error(err)
+      toast.error(err)
     }
   }
 
