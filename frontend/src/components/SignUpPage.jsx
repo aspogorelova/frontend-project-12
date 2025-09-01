@@ -15,7 +15,7 @@ import { setAuthData } from '../slices/authSlice.js'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { useRef } from 'react'
-import avatarImage from '../assets/signupImg.jpg';
+import avatarImage from '../assets/signupImg.jpg'
 
 const SignupPage = () => {
   const { t } = useTranslation()

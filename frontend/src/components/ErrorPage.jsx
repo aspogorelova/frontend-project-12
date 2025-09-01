@@ -1,6 +1,6 @@
 import { Container, Row, Col, Image } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import avatarImage from '../assets/notFound.svg';
+import avatarImage from '../assets/notFound.svg'
 
 const ErrorPage = () => {
   const { t } = useTranslation()

@@ -8,7 +8,7 @@ import { Row, Col, Card, Image, Button, FormControl, FormGroup, Container } from
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import avatarImage from '../assets/avatarAvtor.jpg';
+import avatarImage from '../assets/avatarAvtor.jpg'
 
 const LoginPage = () => {
   const { t } = useTranslation()
