@@ -22,7 +22,7 @@ const AddChannelModal = ({ onHide }) => {
       leoProfanity.add(enProfanityWords)
     }
     catch (error) {
-      console.error('Failed to load Russian dictionary for profanity filter:', error)
+       toast.error(error)
     }
   }, [])
 
@@ -68,7 +68,7 @@ const AddChannelModal = ({ onHide }) => {
       onHide()
     }
     catch (error) {
-      console.log(t('error.errorCreateChannel'), error)
+       toast.error(error)
     }
     finally {
       setSubmitting(false)

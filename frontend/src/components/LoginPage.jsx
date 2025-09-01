@@ -45,9 +45,7 @@ const LoginPage = () => {
       navigator(previousePath)
     }
     catch (error) {
-      console.log('error  ', error)
       if (error.status === 401) {
-        console.log('error 401')
         dispatch(setAuthFailed(t('error.failedNameOrPassword')))
       }
       else if (typeof error.status === 'number' && error.status >= 500) {

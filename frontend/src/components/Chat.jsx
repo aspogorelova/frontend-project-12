@@ -41,7 +41,7 @@ const Chat = () => {
       leoProfanity.add(enProfanityWords)
     }
     catch (error) {
-      console.error('Failed to load Russian dictionary for profanity filter:', error)
+       toast.error(error)
     }
 
     inputRef.current.focus()
@@ -80,7 +80,7 @@ const Chat = () => {
       setNewMessage('')
     }
     catch (err) {
-      console.log(err)
+       toast.error(err)
     }
   }
 

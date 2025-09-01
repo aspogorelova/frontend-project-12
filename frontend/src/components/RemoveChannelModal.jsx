@@ -38,8 +38,7 @@ const RemoveChannelModal = ({ modalInfo, onHide }) => {
       onHide()
     }
     catch (error) {
-      console.log(error)
-      toast.error(t('error.errorRemovingChannel'))
+      toast.error(error)
     }
   }
 
