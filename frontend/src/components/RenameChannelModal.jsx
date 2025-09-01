@@ -19,9 +19,9 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
       leoProfanity.add(enProfanityWords)
     }
     catch (error) {
-      console.error('Failed to load Russian dictionary for profanity filter:', error)
+      toast.error(t('error.failedLoadDictionary'))
     }
-  }, [])
+  }, [t])
 
   const checkUniqueName = (value) => {
     return !channelsBeforeAdd?.some(channel => channel.name === value)
@@ -63,7 +63,7 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
       onHide()
     }
     catch (error) {
-      console.log(t('error.errorSendNewChannel'), error)
+      toast.error(t('error.errorSendNewChannel'))
     }
     finally {
       setSubmitting(false)
