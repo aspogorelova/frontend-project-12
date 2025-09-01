@@ -6,28 +6,20 @@ const ErrorPage = () => {
   const { t } = useTranslation()
 
   return (
-    <Container
-      fluid
-      className="h-100"
-      id="chat"
-    >
-      <Row className="h-100">
-        <Col className="d-flex flex-column justify-content-center align-items-center">
-          <Image
-            alt="Страница не найдена"
-            src={avatarImage}
-            fluid
-            className="h-25"
-          />
-          <h1 className="h4 text-muted">{t('errorPage.pageNotFound')}</h1>
-          <p className="text-muted">
-            {t('errorPage.goTo')}
-            <a href="/">
-              {t('errorPage.mainPage')}
-            </a>
-          </p>
-        </Col>
-      </Row>
+    <Container className="text-center">
+      <Image
+        alt="Страница не найдена"
+        src={avatarImage}
+        fluid
+        className="h-25"
+      />
+      <h1 className="h4 text-muted">{t('errorPage.pageNotFound')}</h1>
+      <p className="text-muted">
+        {t('errorPage.goTo')}
+        <a href="/">
+          {t('errorPage.mainPage')}
+        </a>
+      </p>
       <div className="Toastify"></div>
     </Container>
   )
