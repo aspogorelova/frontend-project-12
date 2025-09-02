@@ -13,9 +13,9 @@ import { useSignUpMutation } from '../services/authApi.js'
 import { useNavigate } from 'react-router-dom'
 import { setAuthData } from '../slices/authSlice.js'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'react-toastify'
 import { useRef } from 'react'
 import avatarImage from '../assets/signupImg.jpg'
+import { showErrorToast } from '../utils/toastUtils.js'
 
 const SignupPage = () => {
   const { t } = useTranslation()
@@ -78,29 +78,13 @@ const SignupPage = () => {
         || errorMessage.includes('Failed to fetch')
         || !navigator.onLine
       ) {
-        toast.error(t('error.errorConnect'), {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: 'light',
-        })
+        showErrorToast(t('error.errorConnect'))
       }
       else if (error.status === 409) {
         setErrors({ username: '', password: '', confirmPassword: t('error.suchUserAlreadyExists') })
       }
       else {
-        toast.error(t('error.errorRegistration'), {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: 'light',
-        })
+        showErrorToast(t('error.errorRegistration'))
       }
     }
   }

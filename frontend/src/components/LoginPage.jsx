@@ -7,8 +7,8 @@ import * as Yup from 'yup'
 import { Row, Col, Card, Image, Button, FormControl, FormGroup, Container } from 'react-bootstrap'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'react-toastify'
 import avatarImage from '../assets/avatarAvtor.jpg'
+import { showErrorToast } from '../utils/toastUtils.js'
 
 const LoginPage = () => {
   const { t } = useTranslation()
@@ -49,30 +49,14 @@ const LoginPage = () => {
         dispatch(setAuthFailed(t('error.failedNameOrPassword')))
       }
       else if (typeof error.status === 'number' && error.status >= 500) {
-        toast.error(t('error.errorServer'), {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: 'light',
-        })
+        showErrorToast(t('error.errorServer'))
       }
       else if (
         error.status === 'FETCH_ERROR'
         || error.message?.includes('Failed to fetch')
         || !navigator.onLine
       ) {
-        toast.error(t('error.errorConnect'), {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: 'light',
-        })
+        showErrorToast(t('error.errorConnect'))
       }
       else {
         dispatch(setAuthFailed(t('error.UnknownError')))

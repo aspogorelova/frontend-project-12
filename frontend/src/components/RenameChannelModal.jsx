@@ -7,23 +7,7 @@ import { useTranslation } from 'react-i18next'
 import leoProfanity from 'leo-profanity'
 import enProfanityWords from '../utils/enWords.js'
 import { useEffect } from 'react'
-
-const showSuccessToast = (t) => {
-  toast.success(t('channels.renamedChannel'), {
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        width="20"
-        height="20"
-        fill="#4CAF50"
-      >
-        <path d="M12 0a12 12 0 1012 12A12.014 12.014 0 0012 0zm6.927 8.2l-6.845 9.289a1.011 1.011 0 01-1.43.188l-4.888-3.908a1 1 0 111.25-1.562l4.076 3.261 6.227-8.451a1 1 0 111.61 1.183z" />
-      </svg>
-    ),
-    className: 'Toastify__toast--success',
-    progressClassName: 'Toastify__progress-bar--success',
-  })
-}
+import { showSuccessToast } from '../utils/toastUtils.js'
 
 const RenameChannelModal = ({ modalInfo, onHide }) => {
   const { t } = useTranslation()
@@ -60,7 +44,7 @@ const RenameChannelModal = ({ modalInfo, onHide }) => {
 
     try {
       await updateChannel({ id: modalInfo.item.id, body: newName }).unwrap()
-      showSuccessToast(t)
+      showSuccessToast(t('channels.renamedChannel'))
       resetForm()
       onHide()
     }
