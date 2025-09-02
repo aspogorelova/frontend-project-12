@@ -11,7 +11,7 @@ import { selectAuthToken, logOut, selectAuthUser } from '../slices/authSlice.js'
 import { Button, Navbar, Container, Row } from 'react-bootstrap'
 import LoginPage from './LoginPage.jsx'
 import SignupPage from './SignUpPage.jsx'
-import ErrorPage from './ErrorPage.jsx'
+import NotFoundPage from './NotFoundPage.jsx'
 import Channels from './Channels.jsx'
 import Chat from './Chat.jsx'
 import getModal from './getModal.js'
@@ -115,7 +115,7 @@ function App() {
           />
           <Route
             path="*"
-            element={<ErrorPage />}
+            element={<NotFoundPage />}
           />
           <Route
             path="signup"
