@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next'
 import { useRef } from 'react'
 import avatarImage from '../assets/signupImg.jpg'
 import { showErrorToast } from '../utils/toastUtils.js'
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 
 const SignupPage = () => {
   const { t } = useTranslation()
@@ -34,7 +34,7 @@ const SignupPage = () => {
       .required(t('error.requiredInput')),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], t('error.passwordsShoudBeEqual'))
-      .required(t('error.passwordsShoudBeEqual'))
+      .required(t('error.passwordsShoudBeEqual')),
   })
 
   const passwordRef = useRef(null)
