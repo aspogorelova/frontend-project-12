@@ -6,7 +6,7 @@ import {
   Card,
   Button,
   FloatingLabel,
-  Form as BForm,
+  Form as BootstrapForm,
 } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { useSignUpMutation } from '../services/authApi.js'
@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import { useRef } from 'react'
 import avatarImage from '../assets/signupImg.jpg'
 import { showErrorToast } from '../utils/toastUtils.js'
+import * as Yup from 'yup';
 
 const SignupPage = () => {
   const { t } = useTranslation()
@@ -23,35 +24,21 @@ const SignupPage = () => {
   const [signup] = useSignUpMutation()
   const navigate = useNavigate()
 
+  const SignupSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, t('error.min3max20'))
+      .max(20, t('error.min3max20'))
+      .required(t('error.requiredInput')),
+    password: Yup.string()
+      .min(6, t('error.min6Symbols'))
+      .required(t('error.requiredInput')),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], t('error.passwordsShoudBeEqual'))
+      .required(t('error.passwordsShoudBeEqual'))
+  })
+
   const passwordRef = useRef(null)
   const confirmPasswordRef = useRef(null)
-
-  const validate = (values) => {
-    const errors = {}
-
-    if (!values.username) {
-      errors.username = t('error.requiredInput')
-    }
-    else if (values.username.length < 3 || values.username.length > 20) {
-      errors.username = t('error.min3max20')
-    }
-
-    if (!values.password) {
-      errors.password = t('error.requiredInput')
-    }
-    else if (values.password.length < 6) {
-      errors.password = t('error.min6Symbols')
-    }
-
-    if (values.confirmPassword !== values.password) {
-      errors.confirmPassword = t('error.passwordsShoudBeEqual')
-    }
-    else if (!values.confirmPassword) {
-      errors.confirmPassword = t('error.passwordsShoudBeEqual')
-    }
-
-    return errors
-  }
 
   const handleSubmit = async (values, { setErrors, setSubmitting }) => {
     try {
@@ -127,13 +114,13 @@ const SignupPage = () => {
                   password: '',
                   confirmPassword: '',
                 }}
-                validate={validate}
+                validationSchema={SignupSchema}
                 validateOnChange={false}
                 validateOnBlur={true}
                 onSubmit={handleSubmit}
               >
                 {({ errors, touched, isSubmitting, setFieldTouched }) => (
-                  <BForm
+                  <BootstrapForm
                     as={Form}
                     className="w-50"
                   >
@@ -146,7 +133,7 @@ const SignupPage = () => {
                           label={t('logInPage.nameUser')}
                           className="mb-3"
                         >
-                          <BForm.Control
+                          <BootstrapForm.Control
                             {...field}
                             type="text"
                             placeholder={t('error.min3max20')}
@@ -169,7 +156,7 @@ const SignupPage = () => {
                           label={t('signUpPage.password')}
                           className="mb-3"
                         >
-                          <BForm.Control
+                          <BootstrapForm.Control
                             {...field}
                             type="password"
                             ref={passwordRef}
@@ -193,7 +180,7 @@ const SignupPage = () => {
                           label={t('logInPage.confirmPassword')}
                           className="mb-4"
                         >
-                          <BForm.Control
+                          <BootstrapForm.Control
                             {...field}
                             type="password"
                             ref={confirmPasswordRef}
@@ -224,7 +211,7 @@ const SignupPage = () => {
                     >
                       {t('logInPage.registrate')}
                     </Button>
-                  </BForm>
+                  </BootstrapForm>
                 )}
               </Formik>
             </Card.Body>
